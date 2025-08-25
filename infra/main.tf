@@ -17,7 +17,16 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
+
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  tenant_id       = var.tenant_id
+  subscription_id = var.subscription_id
 }
 
 resource "azurerm_resource_group" "main" {
@@ -80,23 +89,15 @@ resource "azurerm_container_app" "api" {
         secret_name = "google-clientsecret"
       }
     }
-
-    scale {
-      min_replicas    = 1
-      max_replicas    = 10
-      rules           = []
-      cooldown_period = 300
-    }
   }
 
   ingress {
     external_enabled = true
     target_port      = 80
-    transport        = "Auto"
 
     traffic_weight {
-      latest_revision = true
       percentage      = 100
+      latest_revision = true
     }
   }
 
@@ -105,26 +106,33 @@ resource "azurerm_container_app" "api" {
     name  = "jwt-key"
     value = var.jwt_key
   }
+
   secret {
     name  = "jwt-issuer"
     value = var.jwt_issuer
   }
+
   secret {
     name  = "jwt-audience"
     value = var.jwt_audience
   }
+
   secret {
     name  = "jwt-expireminutes"
     value = var.jwt_expireminutes
   }
+
   secret {
     name  = "google-clientid"
     value = var.google_clientid
   }
+
   secret {
     name  = "google-clientsecret"
     value = var.google_clientsecret
   }
+
+  # Registry auth
   secret {
     name  = "ghcr-token"
     value = var.github_token
