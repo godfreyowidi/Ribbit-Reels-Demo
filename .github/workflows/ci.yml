@@ -68,7 +68,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GHCR_PAT }}
 
       - name: Set Docker image tag
         run: echo "IMAGE_TAG=ghcr.io/${{ github.repository_owner }}/ribbitreels-api:latest" >> $GITHUB_ENV
@@ -114,7 +114,7 @@ jobs:
           TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
           TF_VAR_github_owner: ${{ github.repository_owner }}
-          TF_VAR_github_token: ${{ secrets.GITHUB_TOKEN }}
+          TF_VAR_github_token: ${{ secrets.GHCR_PAT }}
           TF_VAR_jwt_key: ${{ secrets.JWT__KEY }}
           TF_VAR_jwt_issuer: ${{ secrets.JWT__ISSUER }}
           TF_VAR_jwt_audience: ${{ secrets.JWT__AUDIENCE }}
@@ -135,7 +135,7 @@ jobs:
           TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
           TF_VAR_github_owner: ${{ github.repository_owner }}
-          TF_VAR_github_token: ${{ secrets.GITHUB_TOKEN }}
+          TF_VAR_github_token: ${{ secrets.GHCR_PAT }}
           TF_VAR_jwt_key: ${{ secrets.JWT__KEY }}
           TF_VAR_jwt_issuer: ${{ secrets.JWT__ISSUER }}
           TF_VAR_jwt_audience: ${{ secrets.JWT__AUDIENCE }}
