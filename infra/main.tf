@@ -58,6 +58,11 @@ resource "azurerm_container_app" "api" {
         value = "80"
       }
 
+      env {
+        name  = "ASPNETCORE_URLS"
+        value = "http://+:80"
+      }
+
       # Bind environment variables to secrets
       env {
         name        = "Jwt__Key"
