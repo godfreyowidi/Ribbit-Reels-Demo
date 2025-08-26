@@ -167,13 +167,13 @@ resource "azurerm_container_app" "api" {
 
   # GHCR Registry auth
   secret {
-    name  = "ghcr-pat"
-    value = var.ghcr_pat
+    name  = "ghcr-token"
+    value = var.ghcr_token
   }
 
   registry {
     server               = "ghcr.io"
-    username             = var.ghcr_username
-    password_secret_name = "ghcr-pat"
+    username             = var.ghcr_owner
+    password_secret_name = "ghcr-token"
   }
 }

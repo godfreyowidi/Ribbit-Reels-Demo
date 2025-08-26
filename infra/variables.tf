@@ -1,3 +1,9 @@
+variable "location" {
+  description = "Azure region where resources will be deployed"
+  type        = string
+  default     = "East US" # or change to your preferred region
+}
+
 variable "client_id" {
   description = "Azure Service Principal Client ID"
   type        = string
