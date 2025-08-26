@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "5MU/3b/TQJ8=",
+  "dgSpecHash": "ryHCENIUzpY=",
   "success": true,
   "projectFilePath": "/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Api/RibbitReels.Api.csproj",
   "expectedPackageFiles": [
@@ -50,6 +50,7 @@
     "/Users/godfreyowidi/.nuget/packages/microsoft.entityframeworkcore.design/9.0.7/microsoft.entityframeworkcore.design.9.0.7.nupkg.sha512",
     "/Users/godfreyowidi/.nuget/packages/microsoft.entityframeworkcore.relational/9.0.7/microsoft.entityframeworkcore.relational.9.0.7.nupkg.sha512",
     "/Users/godfreyowidi/.nuget/packages/microsoft.entityframeworkcore.sqlserver/9.0.7/microsoft.entityframeworkcore.sqlserver.9.0.7.nupkg.sha512",
+    "/Users/godfreyowidi/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "/Users/godfreyowidi/.nuget/packages/microsoft.extensions.caching.abstractions/9.0.7/microsoft.extensions.caching.abstractions.9.0.7.nupkg.sha512",
     "/Users/godfreyowidi/.nuget/packages/microsoft.extensions.caching.memory/9.0.7/microsoft.extensions.caching.memory.9.0.7.nupkg.sha512",
     "/Users/godfreyowidi/.nuget/packages/microsoft.extensions.configuration/9.0.7/microsoft.extensions.configuration.9.0.7.nupkg.sha512",
@@ -108,8 +109,10 @@
     "/Users/godfreyowidi/.nuget/packages/runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "/Users/godfreyowidi/.nuget/packages/runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "/Users/godfreyowidi/.nuget/packages/sprache/2.3.1/sprache.2.3.1.nupkg.sha512",
+    "/Users/godfreyowidi/.nuget/packages/swashbuckle.aspnetcore/6.6.1/swashbuckle.aspnetcore.6.6.1.nupkg.sha512",
     "/Users/godfreyowidi/.nuget/packages/swashbuckle.aspnetcore.swagger/8.1.4/swashbuckle.aspnetcore.swagger.8.1.4.nupkg.sha512",
     "/Users/godfreyowidi/.nuget/packages/swashbuckle.aspnetcore.swaggergen/8.1.4/swashbuckle.aspnetcore.swaggergen.8.1.4.nupkg.sha512",
+    "/Users/godfreyowidi/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.6.1/swashbuckle.aspnetcore.swaggerui.6.6.1.nupkg.sha512",
     "/Users/godfreyowidi/.nuget/packages/system.appcontext/4.3.0/system.appcontext.4.3.0.nupkg.sha512",
     "/Users/godfreyowidi/.nuget/packages/system.buffers/4.6.0/system.buffers.4.6.0.nupkg.sha512",
     "/Users/godfreyowidi/.nuget/packages/system.clientmodel/1.4.2/system.clientmodel.1.4.2.nupkg.sha512",
@@ -198,5 +201,16 @@
     "/Users/godfreyowidi/.nuget/packages/system.xml.readerwriter/4.3.0/system.xml.readerwriter.4.3.0.nupkg.sha512",
     "/Users/godfreyowidi/.nuget/packages/system.xml.xdocument/4.3.0/system.xml.xdocument.4.3.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "RibbitReels.Api depends on Swashbuckle.AspNetCore (>= 6.6.0) but Swashbuckle.AspNetCore 6.6.0 was not found. Swashbuckle.AspNetCore 6.6.1 was resolved instead.",
+      "libraryId": "Swashbuckle.AspNetCore",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }

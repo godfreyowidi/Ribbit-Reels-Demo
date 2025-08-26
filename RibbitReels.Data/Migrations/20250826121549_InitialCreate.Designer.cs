@@ -12,8 +12,8 @@ using RibbitReels.Data;
 namespace RibbitReels.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250825093053_RemoveVideoDataOnLeaf")]
-    partial class RemoveVideoDataOnLeaf
+    [Migration("20250826121549_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,10 @@ namespace RibbitReels.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("VideoBlobPath")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("VideoContentType")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -87,10 +91,6 @@ namespace RibbitReels.Data.Migrations
                     b.Property<string>("VideoFileName")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("VideoUrl")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("YouTubeVideoId")
                         .HasMaxLength(50)
