@@ -1,17 +1,74 @@
-variable "client_id" {}
-variable "client_secret" {}
-variable "tenant_id" {}
-variable "subscription_id" {}
+variable "client_id" {
+  description = "Azure Service Principal Client ID"
+  type        = string
+}
 
-variable "github_owner" {}
-variable "github_token" {}
+variable "client_secret" {
+  description = "Azure Service Principal Client Secret"
+  type        = string
+  sensitive   = true
+}
 
-# JWT Auth
-variable "jwt_key" {}
-variable "jwt_issuer" {}
-variable "jwt_audience" {}
-variable "jwt_expireminutes" {}
+variable "subscription_id" {
+  description = "Azure Subscription ID"
+  type        = string
+}
 
-# Google Auth
-variable "google_clientid" {}
-variable "google_clientsecret" {}
+variable "tenant_id" {
+  description = "Azure Tenant ID"
+  type        = string
+}
+
+variable "sql_admin_user" {
+  description = "SQL Server administrator username"
+  type        = string
+}
+
+variable "sql_admin_password" {
+  description = "SQL Server administrator password"
+  type        = string
+  sensitive   = true
+}
+
+variable "jwt_key" {
+  description = "JWT signing key"
+  type        = string
+  sensitive   = true
+}
+
+variable "jwt_issuer" {
+  description = "JWT issuer"
+  type        = string
+}
+
+variable "jwt_audience" {
+  description = "JWT audience"
+  type        = string
+}
+
+variable "jwt_expireminutes" {
+  description = "JWT token expiration in minutes"
+  type        = string
+}
+
+variable "google_clientid" {
+  description = "Google OAuth Client ID"
+  type        = string
+}
+
+variable "google_clientsecret" {
+  description = "Google OAuth Client Secret"
+  type        = string
+  sensitive   = true
+}
+
+variable "github_owner" {
+  description = "GitHub repository owner (used for GHCR)"
+  type        = string
+}
+
+variable "github_token" {
+  description = "GitHub Personal Access Token (used for GHCR)"
+  type        = string
+  sensitive   = true
+}
