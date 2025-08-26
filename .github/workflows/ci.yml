@@ -116,8 +116,8 @@ jobs:
           TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
           TF_VAR_sql_admin_user: ${{ secrets.SQL_ADMIN_USER }}
           TF_VAR_sql_admin_password: ${{ secrets.SQL_ADMIN_PASSWORD }}
-          TF_VAR_github_owner: ${{ github.repository_owner }}
-          TF_VAR_github_token: ${{ secrets.GHCR_PAT }}
+          TF_VAR_ghcr_owner: ${{ github.repository_owner }}
+          TF_VAR_ghcr_token: ${{ secrets.GHCR_PAT }}
           TF_VAR_jwt_key: ${{ secrets.JWT__KEY }}
           TF_VAR_jwt_issuer: ${{ secrets.JWT__ISSUER }}
           TF_VAR_jwt_audience: ${{ secrets.JWT__AUDIENCE }}
