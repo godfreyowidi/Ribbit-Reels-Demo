@@ -105,12 +105,12 @@ jobs:
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          
+
       - name: Ensure Azure Resource Group exists
         run: |
           az group create \
             --name ribbitreels-rg \
-            --location eastus
+            --location eastus2
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -122,7 +122,7 @@ jobs:
           az storage account create \
             --name ribbitreelstfstatev2 \
             --resource-group ribbitreels-rg \
-            --location eastus \
+            --location eastus2 \
             --sku Standard_LRS \
             || echo "Storage account already exists"
         env:
