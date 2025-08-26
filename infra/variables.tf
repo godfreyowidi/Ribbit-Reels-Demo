@@ -68,12 +68,12 @@ variable "google_clientsecret" {
   sensitive   = true
 }
 
-variable "github_owner" {
+variable "ghcr_owner" {
   description = "GitHub repository owner (used for GHCR)"
   type        = string
 }
 
-variable "github_token" {
+variable "ghcr_token" {
   description = "GitHub Personal Access Token (used for GHCR)"
   type        = string
   sensitive   = true
