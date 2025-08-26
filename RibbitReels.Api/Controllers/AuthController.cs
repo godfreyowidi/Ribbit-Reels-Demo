@@ -74,7 +74,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> LoginWithGoogle([FromBody] GoogleLoginRequest request)
     {
         if (request == null || string.IsNullOrWhiteSpace(request.IdToken))
-            return BadRequest(new { error = "Google ID token not provided or malformed request" });
+            return BadRequest(new { error = "Google ID token not provided or malformed request." });
 
         var result = await _userService.LoginWithGoogleAsync(request);
         if (!result.IsSuccessful)
