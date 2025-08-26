@@ -1,7 +1,7 @@
 variable "location" {
   description = "Azure region where resources will be deployed"
   type        = string
-  default     = "East US" # or change to your preferred region
+  default     = "East US 2"
 }
 
 variable "client_id" {
