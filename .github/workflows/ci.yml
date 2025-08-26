@@ -93,6 +93,50 @@ jobs:
         with:
           terraform_version: 1.8.5
 
+      # --- NEW STEPS TO ENSURE BACKEND EXISTS ---
+      - name: Ensure Azure Resource Group exists
+        run: |
+          az group create \
+            --name ribbitreels-rg \
+            --location eastus
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+      - name: Ensure Azure Storage Account exists
+        run: |
+          az storage account create \
+            --name ribbitreelstfstatev2 \
+            --resource-group ribbitreels-rg \
+            --location eastus \
+            --sku Standard_LRS \
+            || echo "Storage account already exists"
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+      - name: Ensure tfstate container exists
+        run: |
+          ACCOUNT_KEY=$(az storage account keys list \
+            --resource-group ribbitreels-rg \
+            --account-name ribbitreelstfstatev2 \
+            --query "[0].value" -o tsv)
+          az storage container create \
+            --name tfstate \
+            --account-name ribbitreelstfstatev2 \
+            --account-key $ACCOUNT_KEY \
+            || echo "Container already exists"
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      # --- END NEW STEPS ---
+
       - name: Terraform Init
         working-directory: ./infra
         run: terraform init
@@ -136,7 +180,7 @@ jobs:
           TF_VAR_jwt_key: ${{ secrets.JWT__KEY }}
           TF_VAR_jwt_issuer: ${{ secrets.JWT__ISSUER }}
           TF_VAR_jwt_audience: ${{ secrets.JWT__AUDIENCE }}
-          TF_VAR_jwt_expireminutes: ${{ secrets.JWT__EXPIREMINUTES }}
+          TF_VAR_jwt_expireminutes: ${{ secrets.TF_VAR_jwt_expireminutes }}
           TF_VAR_google_clientid: ${{ secrets.GOOGLEAUTH__CLIENTID }}
           TF_VAR_google_clientsecret: ${{ secrets.GOOGLEAUTH__CLIENTSECRET }}
 
@@ -161,3 +205,4 @@ jobs:
           Jwt__ExpireMinutes: ${{ secrets.JWT__EXPIREMINUTES }}
           GoogleAuth__ClientId: ${{ secrets.GOOGLEAUTH__CLIENTID }}
           GoogleAuth__ClientSecret: ${{ secrets.GOOGLEAUTH__CLIENTSECRET }}
+
