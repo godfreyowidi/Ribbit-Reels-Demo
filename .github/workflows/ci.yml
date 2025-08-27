@@ -9,22 +9,8 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    services:
-      sqlserver:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        env:
-          SA_PASSWORD: Password123!
-          ACCEPT_EULA: Y
-        ports:
-          - 1433:1433
-        options: >-
-          --health-cmd "exit 0"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
     env:
       GITHUB_ACTIONS: true
-      ConnectionStrings__DefaultConnection: Server=localhost,1433;Database=RibbitReelsDb;User Id=sa;Password=Password123!;TrustServerCertificate=True
       Jwt__Key: ${{ secrets.JWT__KEY }}
       Jwt__Issuer: ${{ secrets.JWT__ISSUER }}
       Jwt__Audience: ${{ secrets.JWT__AUDIENCE }}
@@ -46,27 +32,7 @@ jobs:
       - name: Build solution
         run: dotnet build --no-restore --configuration Release
 
-      - name: Install sqlcmd
-        run: |
-          curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-          curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
-
-          sudo apt-get update
-
-          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools unixodbc-dev
-
-          echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> $GITHUB_ENV
-
-      - name: Wait for SQL Server to be ready
-        run: |
-          echo "⏳ Waiting for SQL Server to be ready..."
-          for i in {1..30}; do
-            /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P Password123! -Q "SELECT 1" && echo "✅ SQL Server is ready!" && break
-            echo "Attempt $i: SQL Server not ready yet..."
-            sleep 5
-          done
-
-      - name: Run Unit and Integration Tests (migrates DB internally)
+      - name: Run Unit Tests
         run: dotnet test --no-build --configuration Release
         env:
           DOTNET_ENVIRONMENT: Development
@@ -104,7 +70,6 @@ jobs:
         with:
           terraform_version: 1.8.5
 
-      # --- Ensure Azure Backend ---
       - name: Login to Azure CLI
         run: |
           az login --service-principal \
@@ -117,69 +82,9 @@ jobs:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Ensure Azure Resource Group exists
-        run: |
-          az group create \
-            --name ribbitreels-rg \
-            --location eastus2
-        env:
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-
-      - name: Ensure Azure Storage Account exists
-        run: |
-          az storage account create \
-            --name ribbitreelstfstatev2 \
-            --resource-group ribbitreels-rg \
-            --location eastus2 \
-            --sku Standard_LRS \
-            || echo "Storage account already exists"
-        env:
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-
-      - name: Ensure tfstate container exists
-        run: |
-          ACCOUNT_KEY=$(az storage account keys list \
-            --resource-group ribbitreels-rg \
-            --account-name ribbitreelstfstatev2 \
-            --query "[0].value" -o tsv)
-          az storage container create \
-            --name tfstate \
-            --account-name ribbitreelstfstatev2 \
-            --account-key $ACCOUNT_KEY \
-            || echo "Container already exists"
-        env:
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-
-      # --- Terraform Steps ---
       - name: Terraform Init
         working-directory: ./infra
         run: terraform init
-        env:
-          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-
-      - name: Terraform Force Unlock (if needed)
-        working-directory: ./infra
-        run: |
-          LOCK_ID=$(terraform show -json 2>/dev/null | jq -r '.lock?.ID // empty')
-          if [ -n "$LOCK_ID" ]; then
-              terraform force-unlock -force "$LOCK_ID"
-              echo "⚡ Force unlocked Terraform state lock: $LOCK_ID"
-          else
-              echo "✅ No stale lock detected."
-          fi
-
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -215,12 +120,10 @@ jobs:
         run: |
           echo "sql_server_fqdn=$(terraform output -raw sql_server_fqdn)" >> $GITHUB_ENV
 
-      - name: Show SQL Server FQDN
+      - name: Wait for Azure SQL to be ready
         run: |
-          echo "SQL Server FQDN is: ${{ env.sql_server_fqdn }}"
-
-      - name: Wait for Azure SQL
-        run: |
+          sudo apt-get update && sudo apt-get install -y mssql-tools unixodbc-dev
+          echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> $GITHUB_ENV
           for i in {1..30}; do
             /opt/mssql-tools/bin/sqlcmd -S ${{ env.sql_server_fqdn }} -U ${{ secrets.SQL_ADMIN_USER }} -P ${{ secrets.SQL_ADMIN_PASSWORD }} -Q "SELECT 1" && break
             echo "SQL Server not ready yet, attempt $i..."
@@ -232,7 +135,7 @@ jobs:
       - name: Run EF Core Migrations
         run: |
           cd RibbitReels.Api
-          dotnet new tool-manifest || true
+          dotnet new tool-manifest --force
           dotnet tool install dotnet-ef --version 8.0.0
           echo 'export PATH="$PATH:$(pwd)/.config/dotnet-tools"' >> $GITHUB_ENV
           dotnet tool run dotnet-ef database update --project ../RibbitReels.Data --startup-project .
