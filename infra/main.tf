@@ -113,10 +113,13 @@ resource "azurerm_container_app" "api" {
         name        = "Jwt__Audience"
         secret_name = "jwt-audience"
       }
+
+      # Pass ExpireMinutes as normal env var (not secret)
       env {
-        name        = "Jwt__ExpireMinutes"
-        secret_name = "jwt-expireminutes"
+        name  = "Jwt__ExpireMinutes"
+        value = tostring(var.jwt_expireminutes)
       }
+
       env {
         name        = "GoogleAuth__ClientId"
         secret_name = "google-clientid"
@@ -152,11 +155,6 @@ resource "azurerm_container_app" "api" {
   secret {
     name  = "jwt-audience"
     value = var.jwt_audience
-  }
-
-  secret {
-    name  = "jwt-expireminutes"
-    value = tostring(var.jwt_expireminutes)
   }
 
   secret {

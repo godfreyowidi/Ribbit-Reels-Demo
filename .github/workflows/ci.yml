@@ -28,7 +28,7 @@ jobs:
       Jwt__Key: ${{ secrets.JWT__KEY }}
       Jwt__Issuer: ${{ secrets.JWT__ISSUER }}
       Jwt__Audience: ${{ secrets.JWT__AUDIENCE }}
-      Jwt__ExpireMinutes: ${{ secrets.JWT__EXPIREMINUTES }}
+      Jwt__ExpireMinutes: "60"
       GoogleAuth__ClientId: ${{ secrets.GOOGLEAUTH__CLIENTID }}
       GoogleAuth__ClientSecret: ${{ secrets.GOOGLEAUTH__CLIENTSECRET }}
     steps:
@@ -179,7 +179,7 @@ jobs:
           else
               echo "✅ No stale lock detected."
           fi
-          
+
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -205,7 +205,7 @@ jobs:
           TF_VAR_jwt_key: ${{ secrets.JWT__KEY }}
           TF_VAR_jwt_issuer: ${{ secrets.JWT__ISSUER }}
           TF_VAR_jwt_audience: ${{ secrets.JWT__AUDIENCE }}
-          TF_VAR_jwt_expireminutes: ${{ secrets.TF_VAR_jwt_expireminutes }}
+          TF_VAR_jwt_expireminutes: "60"
           TF_VAR_google_clientid: ${{ secrets.GOOGLEAUTH__CLIENTID }}
           TF_VAR_google_clientsecret: ${{ secrets.GOOGLEAUTH__CLIENTSECRET }}
 
@@ -242,6 +242,6 @@ jobs:
           Jwt__Key: ${{ secrets.JWT__KEY }}
           Jwt__Issuer: ${{ secrets.JWT__ISSUER }}
           Jwt__Audience: ${{ secrets.JWT__AUDIENCE }}
-          Jwt__ExpireMinutes: ${{ secrets.JWT__EXPIREMINUTES }}
+          Jwt__ExpireMinutes: "60"
           GoogleAuth__ClientId: ${{ secrets.GOOGLEAUTH__CLIENTID }}
           GoogleAuth__ClientSecret: ${{ secrets.GOOGLEAUTH__CLIENTSECRET }}
