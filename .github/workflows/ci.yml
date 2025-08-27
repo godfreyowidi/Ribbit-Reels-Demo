@@ -1,4 +1,4 @@
-name: CI - Build, Test, Push to GHCR, and Deploy via Terraform
+name: CI - Build, Push to GHCR, and Deploy via Terraform
 
 on:
   push:
@@ -7,17 +7,10 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-test:
+  build-and-push:
     runs-on: ubuntu-latest
     env:
-      DOTNET_ENVIRONMENT: Development
-      Jwt__ExpireMinutes: "60"
-      ConnectionStrings__DefaultConnection: "Server=${{ env.sql_server_fqdn }};Database=RibbitReelsDb;User Id=${{ secrets.SQL_ADMIN_USER }};Password=${{ secrets.SQL_ADMIN_PASSWORD }};TrustServerCertificate=True"
-      Jwt__Key: ${{ secrets.JWT__KEY }}
-      Jwt__Issuer: ${{ secrets.JWT__ISSUER }}
-      Jwt__Audience: ${{ secrets.JWT__AUDIENCE }}
-      GoogleAuth__ClientId: ${{ secrets.GOOGLEAUTH__CLIENTID }}
-      GoogleAuth__ClientSecret: ${{ secrets.GOOGLEAUTH__CLIENTSECRET }}
+      GITHUB_ACTIONS: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -33,27 +26,10 @@ jobs:
       - name: Build solution
         run: dotnet build --no-restore --configuration Release
 
-      - name: Install sqlcmd
-        run: |
-          curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-          curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
-          sudo apt-get update
-          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools unixodbc-dev
-          export PATH="$PATH:/opt/mssql-tools/bin"
-          sqlcmd -?
-
-      - name: Wait for Azure SQL
-        run: |
-          export PATH="$PATH:/opt/mssql-tools/bin"
-          echo "⏳ Waiting for Azure SQL..."
-          for i in {1..30}; do
-            sqlcmd -S ${{ env.sql_server_fqdn }} -U ${{ secrets.SQL_ADMIN_USER }} -P ${{ secrets.SQL_ADMIN_PASSWORD }} -Q "SELECT 1" && echo "✅ SQL Server is ready!" && break
-            echo "Attempt $i: SQL Server not ready yet..."
-            sleep 10
-          done
-
-      - name: Run Unit and Integration Tests (migrates DB internally)
+      - name: Run Unit Tests
         run: dotnet test --no-build --configuration Release
+        env:
+          DOTNET_ENVIRONMENT: Development
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
@@ -72,7 +48,7 @@ jobs:
         run: docker push $IMAGE_TAG
 
   deploy:
-    needs: build-and-test
+    needs: build-and-push
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -100,9 +76,18 @@ jobs:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Terraform Init & Apply
+      - name: Terraform Init
         working-directory: ./infra
-        run: terraform init && terraform apply -auto-approve
+        run: terraform init
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+      - name: Terraform Apply
+        working-directory: ./infra
+        run: terraform apply -auto-approve
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -131,22 +116,23 @@ jobs:
 
       - name: Wait for Azure SQL
         run: |
-          export PATH="$PATH:/opt/mssql-tools/bin"
           for i in {1..30}; do
-            sqlcmd -S ${{ env.sql_server_fqdn }} -U ${{ secrets.SQL_ADMIN_USER }} -P ${{ secrets.SQL_ADMIN_PASSWORD }} -Q "SELECT 1" && break
+            /opt/mssql-tools18/bin/sqlcmd -S ${{ env.sql_server_fqdn }} \
+              -U ${{ secrets.SQL_ADMIN_USER }} \
+              -P ${{ secrets.SQL_ADMIN_PASSWORD }} \
+              -Q "SELECT 1" && break
             echo "SQL Server not ready yet, attempt $i..."
             sleep 10
           done
-        env:
-          DOTNET_ENVIRONMENT: Production
 
       - name: Run EF Core Migrations
         run: |
           cd RibbitReels.Api
-          dotnet new tool-manifest --force
+          dotnet new tool-manifest || true
           dotnet tool install dotnet-ef --version 8.0.0
-          echo 'export PATH="$PATH:$(pwd)/.config/dotnet-tools"' >> $GITHUB_ENV
-          dotnet tool run dotnet-ef database update --project ../RibbitReels.Data --startup-project .
+          dotnet tool run dotnet-ef database update \
+            --project ../RibbitReels.Data \
+            --startup-project .
         env:
           DOTNET_ENVIRONMENT: Production
           ConnectionStrings__DefaultConnection: "Server=${{ env.sql_server_fqdn }};Database=RibbitReelsDb;User Id=${{ secrets.SQL_ADMIN_USER }};Password=${{ secrets.SQL_ADMIN_PASSWORD }};TrustServerCertificate=True"
