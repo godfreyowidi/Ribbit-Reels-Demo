@@ -204,7 +204,7 @@ jobs:
 
       - name: Show SQL Server FQDN
         run: |
-          echo "SQL Server FQDN is: ${{ env.sql_server_fqdn }"
+          echo "SQL Server FQDN is: ${{ env.sql_server_fqdn }}"
 
       - name: Wait for Azure SQL
         run: |
