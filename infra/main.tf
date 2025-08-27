@@ -155,6 +155,11 @@ resource "azurerm_container_app" "api" {
   }
 
   secret {
+    name  = "jwt-expireminutes"
+    value = tostring(var.jwt_expireminutes)
+  }
+
+  secret {
     name  = "google-clientid"
     value = var.google_clientid
   }
