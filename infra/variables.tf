@@ -55,6 +55,7 @@ variable "jwt_audience" {
 variable "jwt_expireminutes" {
   description = "JWT token expiration in minutes"
   type        = string
+  default     = "60"
 }
 
 variable "google_clientid" {

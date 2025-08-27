@@ -192,7 +192,7 @@ jobs:
           TF_VAR_jwt_key: ${{ secrets.JWT__KEY }}
           TF_VAR_jwt_issuer: ${{ secrets.JWT__ISSUER }}
           TF_VAR_jwt_audience: ${{ secrets.JWT__AUDIENCE }}
-          TF_VAR_jwt_expireminutes: ${{ secrets.TF_VAR_jwt_expireminutes }}
+          TF_VAR_jwt_expireminutes: ${{ secrets.JWT__EXPIREMINUTES }}
           TF_VAR_google_clientid: ${{ secrets.GOOGLEAUTH__CLIENTID }}
           TF_VAR_google_clientsecret: ${{ secrets.GOOGLEAUTH__CLIENTSECRET }}
 
