@@ -172,12 +172,14 @@ jobs:
       - name: Terraform Force Unlock (if needed)
         working-directory: ./infra
         run: |
-          LOCK_ID=$(terraform force-unlock -force $(terraform show -json 2>/dev/null | jq -r '.lock?.ID // empty') || true)
+          LOCK_ID=$(terraform show -json 2>/dev/null | jq -r '.lock?.ID // empty')
           if [ -n "$LOCK_ID" ]; then
-            echo "⚡ Force unlocked Terraform state lock: $LOCK_ID"
+              terraform force-unlock -force "$LOCK_ID"
+              echo "⚡ Force unlocked Terraform state lock: $LOCK_ID"
           else
-            echo "✅ No stale lock detected."
+              echo "✅ No stale lock detected."
           fi
+          
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
