@@ -114,10 +114,18 @@ jobs:
         run: |
           echo "sql_server_fqdn=$(terraform output -raw sql_server_fqdn)" >> $GITHUB_ENV
 
+      - name: Install sqlcmd
+        run: |
+          curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+          curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+          sudo apt-get update
+          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 unixodbc-dev
+          echo "/opt/mssql-tools18/bin" >> $GITHUB_PATH
+
       - name: Wait for Azure SQL
         run: |
           for i in {1..30}; do
-            /opt/mssql-tools18/bin/sqlcmd -S ${{ env.sql_server_fqdn }} \
+            sqlcmd -S ${{ env.sql_server_fqdn }} \
               -U ${{ secrets.SQL_ADMIN_USER }} \
               -P ${{ secrets.SQL_ADMIN_PASSWORD }} \
               -Q "SELECT 1" && break
