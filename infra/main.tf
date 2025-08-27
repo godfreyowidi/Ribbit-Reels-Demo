@@ -64,7 +64,7 @@ resource "azurerm_mssql_firewall_rule" "allow_container_app" {
   name             = "allow-container-app"
   server_id        = azurerm_mssql_server.main.id
   start_ip_address = "0.0.0.0"
-  end_ip_address   = "0.0.0.0"
+  end_ip_address   = "255.255.255.255"
 }
 
 output "sql_server_fqdn" {

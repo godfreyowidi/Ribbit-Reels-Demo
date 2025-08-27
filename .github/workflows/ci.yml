@@ -202,6 +202,17 @@ jobs:
         run: |
           echo "sql_server_fqdn=$(terraform output -raw sql_server_fqdn)" >> $GITHUB_ENV
 
+      - name: Show SQL Server FQDN
+        run: echo "SQL Server FQDN is: ${{ env.sql_server_fqdn }}"
+
+      - name: Wait for Azure SQL
+        run: |
+          for i in {1..30}; do
+            /opt/mssql-tools/bin/sqlcmd -S ${{ env.sql_server_fqdn }} -U ${{ secrets.SQL_ADMIN_USER }} -P ${{ secrets.SQL_ADMIN_PASSWORD }} -Q "SELECT 1" && break
+            echo "SQL Server not ready yet, attempt $i..."
+            sleep 10
+          done
+
       - name: Run EF Core Migrations
         run: |
           echo "Applying migrations to Azure SQL..."
