@@ -19,7 +19,7 @@ public class UserLearningProgressController : ControllerBase
     }
 
     // GET: api/UserLearningProgress?userId={userId}&branchId={branchId}
-    [HttpGet]
+    [HttpGet("progress")]
     public async Task<IActionResult> GetProgress([FromQuery] Guid branchId)
     {
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -29,14 +29,14 @@ public class UserLearningProgressController : ControllerBase
         var result = await _learningProgressService.GetProgressAsync(userId, branchId);
 
         if (!result.IsSuccessful)
-            return StatusCode((int)result.StatusCode, new { error = result.FailureMessage });
+            return StatusCode(result.StatusCode, new { error = result.FailureMessage });
 
         return Ok(result.Value);
     }
 
 
     // PUT: api/UserLearningProgress
-    [HttpPut]
+    [HttpPut("progress")]
     public async Task<IActionResult> UpdateProgress([FromBody] UpdateProgressRequest request)
     {
         try
@@ -64,8 +64,12 @@ public class UserLearningProgressController : ControllerBase
     }
 
     [HttpGet("completed")]
-    public async Task<IActionResult> GetCompletedProgress([FromQuery] Guid userId)
+    public async Task<IActionResult> GetCompletedProgress()
     {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!Guid.TryParse(userIdClaim, out var userId))
+            return Unauthorized(new { error = "Invalid user ID" });
+            
         var result = await _learningProgressService.GetCompletedBranchesAsync(userId);
 
         if (!result.IsSuccessful)

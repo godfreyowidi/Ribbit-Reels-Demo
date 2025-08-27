@@ -17,7 +17,7 @@ public class UserBranchAssignmentService : IUserBranchAssignmentService
         _appDbContext = appDbContext;
     }
 
-    public async Task<OperationResult<UserBranchAssignmentResponse>> AssignBranchAsync(AssignBranchRequest request)
+    public async Task<OperationResult<UserBranchAssignmentResponse>> AssignBranchAsync(InternalAssignBranchRequest request)
     {
         // check if user exists
         var user = await _appDbContext.Users.FindAsync(request.UserId);
@@ -80,15 +80,70 @@ public class UserBranchAssignmentService : IUserBranchAssignmentService
     {
         var assignments = await _appDbContext.UserBranchAssignment
             .Where(x => x.UserId == userId)
+            .Include(a => a.Branch)
+                .ThenInclude(b => b.Leafs)
             .Select(a => new UserBranchAssignmentResponse
             {
                 UserId = a.UserId,
                 BranchId = a.BranchId,
-                AssignedByManagerId = a.AssignedByManagerId
+                AssignedByManagerId = a.AssignedByManagerId,
+                Branch = new BranchResponse
+                {
+                    Id = a.Branch.Id,
+                    Title = a.Branch.Title,
+                    Description = a.Branch.Description,
+                    Leafs = a.Branch.Leafs
+                        .OrderBy(l => l.Order)
+                        .Select(l => new LeafResponse
+                        {
+                            Id = l.Id,
+                            BranchId = l.BranchId,
+                            Title = l.Title,
+                            Order = l.Order
+                        }).ToList()
+                }
             })
             .ToListAsync();
 
         return OperationResult<List<UserBranchAssignmentResponse>>.Success(assignments);
+    }
+
+    public async Task<OperationResult<List<UserBranchAssignmentResponse>>> GetAllAssignmentsAsync()
+    {
+        try
+        {
+            var assignments = await _appDbContext.UserBranchAssignment
+                .Include(a => a.Branch)
+                    .ThenInclude(b => b.Leafs)
+                .Select(a => new UserBranchAssignmentResponse
+                {
+                    UserId = a.UserId,
+                    BranchId = a.BranchId,
+                    AssignedByManagerId = a.AssignedByManagerId,
+                    Branch = new BranchResponse
+                    {
+                        Id = a.Branch.Id,
+                        Title = a.Branch.Title,
+                        Description = a.Branch.Description,
+                        Leafs = a.Branch.Leafs
+                            .OrderBy(l => l.Order)
+                            .Select(l => new LeafResponse
+                            {
+                                Id = l.Id,
+                                BranchId = l.BranchId,
+                                Title = l.Title,
+                                Order = l.Order
+                            }).ToList()
+                    }
+                })
+                .ToListAsync();
+
+            return OperationResult<List<UserBranchAssignmentResponse>>.Success(assignments);
+        }
+        catch (Exception ex)
+        {
+            return OperationResult<List<UserBranchAssignmentResponse>>.Fail(ex, "Failed to fetch all assignments.");
+        }
     }
 
     public async Task<OperationResult<bool>> UnassignBranchAsync(Guid userId, Guid branchId)
@@ -111,5 +166,4 @@ public class UserBranchAssignmentService : IUserBranchAssignmentService
             return OperationResult<bool>.Fail(ex, "Failed to unassign branch.");
         }
     }
-
 }

@@ -19,6 +19,14 @@ public class LearningProgressService : ILearningProgressService
 
     public async Task<OperationResult<LearningProgressResponse>> GetProgressAsync(Guid userId, Guid branchId)
     {
+        var branch = await _appDbContext.Branches
+            .Include(b => b.Leafs)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(b => b.Id == branchId);
+
+        if (branch == null)
+            return OperationResult<LearningProgressResponse>.Fail("Branch not found", HttpStatusCode.NotFound);
+
         var progress = await _appDbContext.LearningProgress
             .AsNoTracking()
             .FirstOrDefaultAsync(p => p.UserId == userId && p.BranchId == branchId);
@@ -26,23 +34,21 @@ public class LearningProgressService : ILearningProgressService
         if (progress == null)
             return OperationResult<LearningProgressResponse>.Fail("No progress found", HttpStatusCode.NotFound);
 
-        var totalLeafs = await _appDbContext.Leafs
-            .Where(l => l.BranchId == branchId)
-            .CountAsync();
+        var completedLeafs = progress?.CompletedLeafIds ?? new List<Guid>();
+        var totalLeafs = branch.Leafs.Count;
+        var validCompleted = completedLeafs.Intersect(branch.Leafs.Select(l => l.Id)).ToList();
 
-        double percentageCompleted = 0;
 
-        if (totalLeafs > 0 && progress.CompletedLeafIds != null)
-        {
-            percentageCompleted = progress.CompletedLeafIds.Count / (double)totalLeafs * 100;
-        }
+        var percentageCompleted = totalLeafs == 0
+            ? 0
+            : validCompleted.Count / (double)totalLeafs * 100;
 
         return OperationResult<LearningProgressResponse>.Success(new LearningProgressResponse
         {
             UserId = userId,
             BranchId = branchId,
-            CompletedLeafIds = progress.CompletedLeafIds ?? new List<Guid>(),
-            CompletedAt = progress.CompletedAt,
+            CompletedLeafIds = validCompleted,
+            CompletedAt = progress?.CompletedAt,
             PercentageCompleted = Math.Round(percentageCompleted, 2)
         });
     }
@@ -57,10 +63,14 @@ public class LearningProgressService : ILearningProgressService
         if (branch == null)
             return OperationResult<LearningProgressResponse>.Fail("Branch not found", HttpStatusCode.NotFound);
 
+        var validLeafIds = branch.Leafs.Select(l => l.Id).ToHashSet();
+        var incomingLeafIds = (request.CompletedLeafIds ?? new List<Guid>())
+            .Where(validLeafIds.Contains)
+            .Distinct()
+            .ToList();
+
         var progress = await _appDbContext.LearningProgress
             .FirstOrDefaultAsync(p => p.UserId == request.UserId && p.BranchId == request.BranchId);
-
-        var incomingLeafIds = request.CompletedLeafIds?.Distinct().ToList() ?? new();
 
         if (progress == null)
         {
@@ -71,38 +81,38 @@ public class LearningProgressService : ILearningProgressService
                 BranchId = request.BranchId,
                 CompletedLeafIds = incomingLeafIds
             };
-
-            if (branch.Leafs.All(l => incomingLeafIds.Contains(l.Id)))
-                progress.CompletedAt = DateTime.UtcNow;
-
             _appDbContext.LearningProgress.Add(progress);
         }
         else
         {
-            var updatedIds = progress.CompletedLeafIds
+            progress.CompletedLeafIds = progress.CompletedLeafIds
                 .Union(incomingLeafIds)
+                .Where(validLeafIds.Contains)
                 .Distinct()
                 .ToList();
-
-            progress.CompletedLeafIds = updatedIds;
-
-            if (branch.Leafs.All(l => updatedIds.Contains(l.Id)))
-                progress.CompletedAt ??= DateTime.UtcNow;
 
             _appDbContext.LearningProgress.Update(progress);
         }
 
+        // mark branch completed if ALL leafs are all watched
+        if (branch.Leafs.All(l => progress.CompletedLeafIds.Contains(l.Id)))
+            progress.CompletedAt ??= DateTime.UtcNow;
+
         await _appDbContext.SaveChangesAsync();
+
+        var percentageCompleted = branch.Leafs.Count == 0 
+            ? 0 
+            : progress.CompletedLeafIds.Count / (double)branch.Leafs.Count * 100;
 
         return OperationResult<LearningProgressResponse>.Success(new LearningProgressResponse
         {
             UserId = request.UserId,
             BranchId = request.BranchId,
             CompletedLeafIds = progress.CompletedLeafIds,
-            CompletedAt = progress.CompletedAt
+            CompletedAt = progress.CompletedAt,
+            PercentageCompleted = Math.Round(percentageCompleted, 2)
         });
     }
-
 
     public async Task<OperationResult<List<CompletedBranchResponse>>> GetCompletedBranchesAsync(Guid userId)
     {

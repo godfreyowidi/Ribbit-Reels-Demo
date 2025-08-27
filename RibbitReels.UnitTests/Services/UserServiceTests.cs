@@ -38,9 +38,9 @@ public class UserServiceTests
         // dummy IConfiguration
         var configDict = new Dictionary<string, string>
         {
-            { "Jwt:Key", "super-secret-key-that-is-32+chars" },
-            { "Jwt:Issuer", "RibbitIssuer" },
-            {"Jwt:Audience", "RibbitAudience"}
+            { "Jwt:Key", "oFMxyP/bOJCKqnPseJtc7bdlJhzcy+nBDCmEA5g8gFg=" },
+            { "Jwt:Issuer", "RibbitUnitTestIssuer" },
+            {"Jwt:Audience", "RibbitUnitTestAudience"}
         };
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(configDict.Select(kvp => new KeyValuePair<string, string?>(kvp.Key, kvp.Value)))

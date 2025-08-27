@@ -1,5 +1,3 @@
-using System;
-
 namespace RibbitReels.Data.DTOs;
 
 public class UpdateProgressRequest

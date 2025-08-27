@@ -17,6 +17,9 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<UserBranchAssignment>()
+            .HasIndex(u => new { u.UserId, u.BranchId })
+            .IsUnique();
         modelBuilder.Entity<LearningProgress>()
             .Property(up => up.CompletedLeafIds)
             .HasConversion(

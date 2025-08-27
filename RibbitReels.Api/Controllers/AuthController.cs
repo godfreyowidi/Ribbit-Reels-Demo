@@ -22,10 +22,12 @@ public class AuthController : ControllerBase
     public  IActionResult GetCurrentUser()
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var email = User.FindFirst(ClaimTypes.Email)?.Value;
+        var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
         if (Guid.TryParse(userId, out var id))
         {
-            return Ok(new { id });
+            return Ok(new { id, email, role });
         }
 
         return Unauthorized();
@@ -72,7 +74,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> LoginWithGoogle([FromBody] GoogleLoginRequest request)
     {
         if (request == null || string.IsNullOrWhiteSpace(request.IdToken))
-            return BadRequest(new { error = "Google ID token not provided or malformed request" });
+            return BadRequest(new { error = "Google ID token not provided or malformed request." });
 
         var result = await _userService.LoginWithGoogleAsync(request);
         if (!result.IsSuccessful)

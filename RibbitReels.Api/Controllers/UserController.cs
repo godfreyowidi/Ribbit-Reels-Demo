@@ -21,7 +21,6 @@ public class UsersController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> GetAll()
     {
-        Console.WriteLine("🔍 [GET] /api/users called");
         var result = await _userService.GetAllUsersAsync();
         return result.IsSuccessful ? Ok(new { data = result.Value }) : BadRequest(result.FailureMessage);
     }

@@ -76,6 +76,10 @@
               "target": "Package",
               "version": "[9.0.7, )"
             },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.6.0, )"
+            },
             "Swashbuckle.AspNetCore.SwaggerGen": {
               "target": "Package",
               "version": "[8.1.4, )"
@@ -146,6 +150,10 @@
             "DotNetEnv": {
               "target": "Package",
               "version": "[3.1.1, )"
+            },
+            "Microsoft.AspNetCore.Http": {
+              "target": "Package",
+              "version": "[2.3.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -241,6 +249,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Azure.Storage.Blobs": {
+              "target": "Package",
+              "version": "[12.26.0-beta.1, )"
+            },
             "Google.Apis.Auth": {
               "target": "Package",
               "version": "[1.70.0, )"

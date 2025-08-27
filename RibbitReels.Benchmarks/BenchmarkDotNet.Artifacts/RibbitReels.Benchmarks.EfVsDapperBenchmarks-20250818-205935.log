@@ -1,0 +1,311 @@
+// Validating benchmarks:
+// ***** BenchmarkRunner: Start   *****
+// ***** Found 4 benchmark(s) in total *****
+// ***** Building 1 exe(s) in Parallel: Start   *****
+// start dotnet  restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:ArtifactsPath="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/" /p:OutDir="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0/" /p:OutputPath="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0/" /p:PublishDir="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/publish/" in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1
+// command took 0.77 sec and exited with 0
+// start dotnet  build -c Release --no-restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:ArtifactsPath="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/" /p:OutDir="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0/" /p:OutputPath="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0/" /p:PublishDir="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/publish/" --output "/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0/" in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1
+// command took 3.76 sec and exited with 0
+// ***** Done, took 00:00:04 (4.57 sec)   *****
+// Found 4 benchmarks:
+//   EfVsDapperBenchmarks.EfCoreLinq: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+//   EfVsDapperBenchmarks.EfCoreRawSql: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+//   EfVsDapperBenchmarks.DapperQuery: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+//   EfVsDapperBenchmarks.RawAdoNet: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+
+// **************************
+// Benchmark: EfVsDapperBenchmarks.EfCoreLinq: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet RibbitReels.Benchmarks-Job-WRIKEU-1.dll --anonymousPipes 130 131 --benchmarkName RibbitReels.Benchmarks.EfVsDapperBenchmarks.EfCoreLinq --job "IterationCount=5, LaunchCount=1, WarmupCount=2" --benchmarkId 0 in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+
+OverheadJitting  1: 1 op, 65417.00 ns, 65.4170 us/op
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 40 - Could not open a connection to SQL Server)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at RibbitReels.Benchmarks.EfVsDapperBenchmarks.EfCoreLinq() in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/EfVsDapperBenchmarks.cs:line 32
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult[T](Task`1 task)
+   at BenchmarkDotNet.Autogenerated.Runnable_0.<.ctor>b__3_3() in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 199
+   at BenchmarkDotNet.Autogenerated.Runnable_0.WorkloadActionNoUnroll(Int64 invokeCount) in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 315
+   at BenchmarkDotNet.Engines.Engine.Measure(Action`1 action, Int64 invokeCount)
+   at BenchmarkDotNet.Engines.Engine.RunIteration(IterationData data)
+   at BenchmarkDotNet.Engines.EngineFactory.Jit(Engine engine, Int32 jitIndex, Int32 invokeCount, Int32 unrollFactor)
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_0.Run(IHost host, String benchmarkName) in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 178
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 40522 has exited with code 255.
+
+// ** Remained 3 (75.0%) benchmark(s) to run. Estimated finish 2025-08-18 21:00 (0h 0m from now) **
+// **************************
+// Benchmark: EfVsDapperBenchmarks.EfCoreRawSql: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet RibbitReels.Benchmarks-Job-WRIKEU-1.dll --anonymousPipes 130 131 --benchmarkName RibbitReels.Benchmarks.EfVsDapperBenchmarks.EfCoreRawSql --job "IterationCount=5, LaunchCount=1, WarmupCount=2" --benchmarkId 1 in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+
+OverheadJitting  1: 1 op, 73708.00 ns, 73.7080 us/op
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 40 - Could not open a connection to SQL Server)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at RibbitReels.Benchmarks.EfVsDapperBenchmarks.EfCoreRawSql() in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/EfVsDapperBenchmarks.cs:line 40
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult[T](Task`1 task)
+   at BenchmarkDotNet.Autogenerated.Runnable_1.<.ctor>b__3_3() in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 398
+   at BenchmarkDotNet.Autogenerated.Runnable_1.WorkloadActionNoUnroll(Int64 invokeCount) in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 514
+   at BenchmarkDotNet.Engines.Engine.Measure(Action`1 action, Int64 invokeCount)
+   at BenchmarkDotNet.Engines.Engine.RunIteration(IterationData data)
+   at BenchmarkDotNet.Engines.EngineFactory.Jit(Engine engine, Int32 jitIndex, Int32 invokeCount, Int32 unrollFactor)
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_1.Run(IHost host, String benchmarkName) in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 377
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 40533 has exited with code 255.
+
+// ** Remained 2 (50.0%) benchmark(s) to run. Estimated finish 2025-08-18 21:00 (0h 0m from now) **
+// **************************
+// Benchmark: EfVsDapperBenchmarks.DapperQuery: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet RibbitReels.Benchmarks-Job-WRIKEU-1.dll --anonymousPipes 130 131 --benchmarkName RibbitReels.Benchmarks.EfVsDapperBenchmarks.DapperQuery --job "IterationCount=5, LaunchCount=1, WarmupCount=2" --benchmarkId 2 in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+
+OverheadJitting  1: 1 op, 61833.00 ns, 61.8330 us/op
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 40 - Could not open a connection to SQL Server)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 433
+   at RibbitReels.Benchmarks.EfVsDapperBenchmarks.DapperQuery() in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/EfVsDapperBenchmarks.cs:line 49
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult[T](Task`1 task)
+   at BenchmarkDotNet.Autogenerated.Runnable_2.<.ctor>b__3_3() in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 597
+   at BenchmarkDotNet.Autogenerated.Runnable_2.WorkloadActionNoUnroll(Int64 invokeCount) in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 713
+   at BenchmarkDotNet.Engines.Engine.Measure(Action`1 action, Int64 invokeCount)
+   at BenchmarkDotNet.Engines.Engine.RunIteration(IterationData data)
+   at BenchmarkDotNet.Engines.EngineFactory.Jit(Engine engine, Int32 jitIndex, Int32 invokeCount, Int32 unrollFactor)
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_2.Run(IHost host, String benchmarkName) in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 576
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 40544 has exited with code 255.
+
+// ** Remained 1 (25.0%) benchmark(s) to run. Estimated finish 2025-08-18 21:00 (0h 0m from now) **
+// **************************
+// Benchmark: EfVsDapperBenchmarks.RawAdoNet: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet RibbitReels.Benchmarks-Job-WRIKEU-1.dll --anonymousPipes 130 131 --benchmarkName RibbitReels.Benchmarks.EfVsDapperBenchmarks.RawAdoNet --job "IterationCount=5, LaunchCount=1, WarmupCount=2" --benchmarkId 3 in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+
+OverheadJitting  1: 1 op, 66334.00 ns, 66.3340 us/op
+
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 40 - Could not open a connection to SQL Server)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location ---
+   at RibbitReels.Benchmarks.EfVsDapperBenchmarks.RawAdoNet() in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/EfVsDapperBenchmarks.cs:line 58
+   at BenchmarkDotNet.Helpers.AwaitHelper.GetResult[T](Task`1 task)
+   at BenchmarkDotNet.Autogenerated.Runnable_3.<.ctor>b__3_3() in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 796
+   at BenchmarkDotNet.Autogenerated.Runnable_3.WorkloadActionNoUnroll(Int64 invokeCount) in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 912
+   at BenchmarkDotNet.Engines.Engine.Measure(Action`1 action, Int64 invokeCount)
+   at BenchmarkDotNet.Engines.Engine.RunIteration(IterationData data)
+   at BenchmarkDotNet.Engines.EngineFactory.Jit(Engine engine, Int32 jitIndex, Int32 invokeCount, Int32 unrollFactor)
+   at BenchmarkDotNet.Engines.EngineFactory.CreateReadyToRun(EngineParameters engineParameters)
+   at BenchmarkDotNet.Autogenerated.Runnable_3.Run(IHost host, String benchmarkName) in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 775
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+   --- End of inner exception stack trace ---
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at BenchmarkDotNet.Autogenerated.UniqueProgramName.AfterAssemblyLoadingAttached(String[] args) in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/RibbitReels.Benchmarks-Job-WRIKEU-1.notcs:line 57
+// AfterAll
+No Workload Results were obtained from the run.
+// Benchmark Process 40550 has exited with code 255.
+
+// ** Remained 0 (0.0%) benchmark(s) to run. Estimated finish 2025-08-18 21:00 (0h 0m from now) **
+// ***** BenchmarkRunner: Finish  *****
+
+// * Export *
+  BenchmarkDotNet.Artifacts/results/RibbitReels.Benchmarks.EfVsDapperBenchmarks-report.csv
+  BenchmarkDotNet.Artifacts/results/RibbitReels.Benchmarks.EfVsDapperBenchmarks-report-github.md
+  BenchmarkDotNet.Artifacts/results/RibbitReels.Benchmarks.EfVsDapperBenchmarks-report.html
+
+// * Detailed results *
+EfVsDapperBenchmarks.EfCoreLinq: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+Runtime = .NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+EfVsDapperBenchmarks.EfCoreRawSql: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+Runtime = .NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+EfVsDapperBenchmarks.DapperQuery: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+Runtime = .NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+EfVsDapperBenchmarks.RawAdoNet: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+Runtime = .NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+There are not any results runs
+
+// * Summary *
+
+BenchmarkDotNet v0.15.2, macOS Sequoia 15.6 (24G84) [Darwin 24.6.0]
+Apple M4 Pro, 1 CPU, 12 logical and 12 physical cores
+.NET SDK 8.0.412
+  [Host]     : .NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD
+  Job-WRIKEU : .NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD
+
+IterationCount=5  LaunchCount=1  WarmupCount=2  
+
+| Method       | Mean | Error |
+|------------- |-----:|------:|
+| EfCoreLinq   |   NA |    NA |
+| EfCoreRawSql |   NA |    NA |
+| DapperQuery  |   NA |    NA |
+| RawAdoNet    |   NA |    NA |
+
+Benchmarks with issues:
+  EfVsDapperBenchmarks.EfCoreLinq: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+  EfVsDapperBenchmarks.EfCoreRawSql: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+  EfVsDapperBenchmarks.DapperQuery: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+  EfVsDapperBenchmarks.RawAdoNet: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+
+// * Legends *
+  Mean  : Arithmetic mean of all measurements
+  Error : Half of 99.9% confidence interval
+  1 ns  : 1 Nanosecond (0.000000001 sec)
+
+// * Diagnostic Output - MemoryDiagnoser *
+
+
+// ***** BenchmarkRunner: End *****
+Run time: 00:00:59 (59.62 sec), executed benchmarks: 4
+
+Global total time: 00:01:04 (64.4 sec), executed benchmarks: 4
+// * Artifacts cleanup *
+Artifacts cleanup is finished

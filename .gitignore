@@ -10,3 +10,5 @@ terraform.tfstate
 terraform.tfstate.backup
 .terraform/
 crash.log
+
+delete.MD

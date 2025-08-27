@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RibbitReels.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class initialCreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,20 +43,28 @@ namespace RibbitReels.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Leaves",
+                name: "Leafs",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     BranchId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Order = table.Column<int>(type: "int", nullable: false)
+                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    YouTubeVideoId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    VideoBlobPath = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    VideoFileName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    VideoContentType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ThumbnailUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Order = table.Column<int>(type: "int", nullable: false),
+                    Source = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Leaves", x => x.Id);
+                    table.PrimaryKey("PK_Leafs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Leaves_Branches_BranchId",
+                        name: "FK_Leafs_Branches_BranchId",
                         column: x => x.BranchId,
                         principalTable: "Branches",
                         principalColumn: "Id",
@@ -64,33 +72,7 @@ namespace RibbitReels.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AssignedBranches",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BranchId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AssignedByManagerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AssignedBranches", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AssignedBranches_Branches_BranchId",
-                        column: x => x.BranchId,
-                        principalTable: "Branches",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AssignedBranches_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserProgress",
+                name: "LearningProgress",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -101,15 +83,41 @@ namespace RibbitReels.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserProgress", x => x.Id);
+                    table.PrimaryKey("PK_LearningProgress", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserProgress_Branches_BranchId",
+                        name: "FK_LearningProgress_Branches_BranchId",
                         column: x => x.BranchId,
                         principalTable: "Branches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserProgress_Users_UserId",
+                        name: "FK_LearningProgress_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserBranchAssignment",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BranchId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AssignedByManagerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserBranchAssignment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserBranchAssignment_Branches_BranchId",
+                        column: x => x.BranchId,
+                        principalTable: "Branches",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserBranchAssignment_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -117,42 +125,43 @@ namespace RibbitReels.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssignedBranches_BranchId",
-                table: "AssignedBranches",
+                name: "IX_Leafs_BranchId",
+                table: "Leafs",
                 column: "BranchId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssignedBranches_UserId",
-                table: "AssignedBranches",
+                name: "IX_LearningProgress_BranchId",
+                table: "LearningProgress",
+                column: "BranchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LearningProgress_UserId",
+                table: "LearningProgress",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Leaves_BranchId",
-                table: "Leaves",
+                name: "IX_UserBranchAssignment_BranchId",
+                table: "UserBranchAssignment",
                 column: "BranchId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserProgress_BranchId",
-                table: "UserProgress",
-                column: "BranchId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserProgress_UserId",
-                table: "UserProgress",
-                column: "UserId");
+                name: "IX_UserBranchAssignment_UserId_BranchId",
+                table: "UserBranchAssignment",
+                columns: new[] { "UserId", "BranchId" },
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AssignedBranches");
+                name: "Leafs");
 
             migrationBuilder.DropTable(
-                name: "Leaves");
+                name: "LearningProgress");
 
             migrationBuilder.DropTable(
-                name: "UserProgress");
+                name: "UserBranchAssignment");
 
             migrationBuilder.DropTable(
                 name: "Branches");

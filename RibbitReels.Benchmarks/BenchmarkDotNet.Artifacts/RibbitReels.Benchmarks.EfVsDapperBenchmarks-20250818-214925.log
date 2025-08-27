@@ -1,0 +1,423 @@
+// Validating benchmarks:
+// ***** BenchmarkRunner: Start   *****
+// ***** Found 4 benchmark(s) in total *****
+// ***** Building 1 exe(s) in Parallel: Start   *****
+// start dotnet  restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:ArtifactsPath="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/" /p:OutDir="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0/" /p:OutputPath="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0/" /p:PublishDir="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/publish/" in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1
+// command took 3.16 sec and exited with 0
+// start dotnet  build -c Release --no-restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:ArtifactsPath="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/" /p:OutDir="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0/" /p:OutputPath="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0/" /p:PublishDir="/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/publish/" --output "/Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0/" in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1
+// command took 3.92 sec and exited with 0
+// ***** Done, took 00:00:07 (7.13 sec)   *****
+// Found 4 benchmarks:
+//   EfVsDapperBenchmarks.EfCoreLinq: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+//   EfVsDapperBenchmarks.EfCoreRawSql: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+//   EfVsDapperBenchmarks.DapperQuery: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+//   EfVsDapperBenchmarks.RawAdoNet: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+
+// **************************
+// Benchmark: EfVsDapperBenchmarks.EfCoreLinq: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet RibbitReels.Benchmarks-Job-WRIKEU-1.dll --anonymousPipes 130 131 --benchmarkName RibbitReels.Benchmarks.EfVsDapperBenchmarks.EfCoreLinq --job "IterationCount=5, LaunchCount=1, WarmupCount=2" --benchmarkId 0 in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+
+OverheadJitting  1: 1 op, 70958.00 ns, 70.9580 us/op
+WorkloadJitting  1: 1 op, 530638833.00 ns, 530.6388 ms/op
+
+OverheadJitting  2: 1 op, 125.00 ns, 125.0000 ns/op
+WorkloadJitting  2: 1 op, 5535625.00 ns, 5.5356 ms/op
+
+OverheadJitting  3: 16 op, 275917.00 ns, 17.2448 us/op
+WorkloadJitting  3: 16 op, 10036958.00 ns, 627.3099 us/op
+
+WorkloadPilot    1: 16 op, 24453084.00 ns, 1.5283 ms/op
+WorkloadPilot    2: 32 op, 14413125.00 ns, 450.4102 us/op
+WorkloadPilot    3: 64 op, 29708791.00 ns, 464.1999 us/op
+WorkloadPilot    4: 128 op, 55724000.00 ns, 435.3438 us/op
+WorkloadPilot    5: 256 op, 115804209.00 ns, 452.3602 us/op
+WorkloadPilot    6: 512 op, 245934083.00 ns, 480.3400 us/op
+WorkloadPilot    7: 1024 op, 440536875.00 ns, 430.2118 us/op
+WorkloadPilot    8: 2048 op, 875551500.00 ns, 427.5154 us/op
+
+OverheadWarmup   1: 2048 op, 5500.00 ns, 2.6855 ns/op
+OverheadWarmup   2: 2048 op, 4375.00 ns, 2.1362 ns/op
+OverheadWarmup   3: 2048 op, 4083.00 ns, 1.9937 ns/op
+OverheadWarmup   4: 2048 op, 4125.00 ns, 2.0142 ns/op
+OverheadWarmup   5: 2048 op, 4958.00 ns, 2.4209 ns/op
+OverheadWarmup   6: 2048 op, 4709.00 ns, 2.2993 ns/op
+OverheadWarmup   7: 2048 op, 4750.00 ns, 2.3193 ns/op
+OverheadWarmup   8: 2048 op, 4709.00 ns, 2.2993 ns/op
+
+OverheadActual   1: 2048 op, 4667.00 ns, 2.2788 ns/op
+OverheadActual   2: 2048 op, 4708.00 ns, 2.2988 ns/op
+OverheadActual   3: 2048 op, 4750.00 ns, 2.3193 ns/op
+OverheadActual   4: 2048 op, 4958.00 ns, 2.4209 ns/op
+OverheadActual   5: 2048 op, 4625.00 ns, 2.2583 ns/op
+OverheadActual   6: 2048 op, 5084.00 ns, 2.4824 ns/op
+OverheadActual   7: 2048 op, 4708.00 ns, 2.2988 ns/op
+OverheadActual   8: 2048 op, 4750.00 ns, 2.3193 ns/op
+OverheadActual   9: 2048 op, 4666.00 ns, 2.2783 ns/op
+OverheadActual  10: 2048 op, 5208.00 ns, 2.5430 ns/op
+OverheadActual  11: 2048 op, 4708.00 ns, 2.2988 ns/op
+OverheadActual  12: 2048 op, 4708.00 ns, 2.2988 ns/op
+OverheadActual  13: 2048 op, 4666.00 ns, 2.2783 ns/op
+OverheadActual  14: 2048 op, 4667.00 ns, 2.2788 ns/op
+OverheadActual  15: 2048 op, 5209.00 ns, 2.5435 ns/op
+
+WorkloadWarmup   1: 2048 op, 816633666.00 ns, 398.7469 us/op
+WorkloadWarmup   2: 2048 op, 714630625.00 ns, 348.9407 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 2048 op, 706040333.00 ns, 344.7463 us/op
+WorkloadActual   2: 2048 op, 701222042.00 ns, 342.3936 us/op
+WorkloadActual   3: 2048 op, 734206917.00 ns, 358.4995 us/op
+WorkloadActual   4: 2048 op, 702941292.00 ns, 343.2331 us/op
+WorkloadActual   5: 2048 op, 706610250.00 ns, 345.0245 us/op
+
+// AfterActualRun
+WorkloadResult   1: 2048 op, 706035625.00 ns, 344.7440 us/op
+WorkloadResult   2: 2048 op, 701217334.00 ns, 342.3913 us/op
+WorkloadResult   3: 2048 op, 702936584.00 ns, 343.2308 us/op
+WorkloadResult   4: 2048 op, 706605542.00 ns, 345.0222 us/op
+// GC:  3 0 0 27164376 2048
+// Threading:  16384 0 2048
+
+// AfterAll
+// Benchmark Process 41137 has exited with code 0.
+
+Mean = 343.847 μs, StdErr = 0.625 μs (0.18%), N = 4, StdDev = 1.250 μs
+Min = 342.391 μs, Q1 = 343.021 μs, Median = 343.987 μs, Q3 = 344.814 μs, Max = 345.022 μs
+IQR = 1.793 μs, LowerFence = 340.332 μs, UpperFence = 347.502 μs
+ConfidenceInterval = [335.772 μs; 351.922 μs] (CI 99.9%), Margin = 8.075 μs (2.35% of Mean)
+Skewness = -0.12, Kurtosis = 0.74, MValue = 2
+
+// ** Remained 3 (75.0%) benchmark(s) to run. Estimated finish 2025-08-18 21:50 (0h 0m from now) **
+// **************************
+// Benchmark: EfVsDapperBenchmarks.EfCoreRawSql: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet RibbitReels.Benchmarks-Job-WRIKEU-1.dll --anonymousPipes 132 133 --benchmarkName RibbitReels.Benchmarks.EfVsDapperBenchmarks.EfCoreRawSql --job "IterationCount=5, LaunchCount=1, WarmupCount=2" --benchmarkId 1 in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+
+OverheadJitting  1: 1 op, 71959.00 ns, 71.9590 us/op
+WorkloadJitting  1: 1 op, 361268084.00 ns, 361.2681 ms/op
+
+OverheadJitting  2: 1 op, 125.00 ns, 125.0000 ns/op
+WorkloadJitting  2: 1 op, 5942584.00 ns, 5.9426 ms/op
+
+OverheadJitting  3: 16 op, 250709.00 ns, 15.6693 us/op
+WorkloadJitting  3: 16 op, 20214584.00 ns, 1.2634 ms/op
+
+WorkloadPilot    1: 16 op, 9264041.00 ns, 579.0026 us/op
+WorkloadPilot    2: 32 op, 14439292.00 ns, 451.2279 us/op
+WorkloadPilot    3: 64 op, 29348166.00 ns, 458.5651 us/op
+WorkloadPilot    4: 128 op, 56682542.00 ns, 442.8324 us/op
+WorkloadPilot    5: 256 op, 114417167.00 ns, 446.9421 us/op
+WorkloadPilot    6: 512 op, 238130125.00 ns, 465.0979 us/op
+WorkloadPilot    7: 1024 op, 445987166.00 ns, 435.5343 us/op
+WorkloadPilot    8: 2048 op, 885719333.00 ns, 432.4801 us/op
+
+OverheadWarmup   1: 2048 op, 6833.00 ns, 3.3364 ns/op
+OverheadWarmup   2: 2048 op, 4959.00 ns, 2.4214 ns/op
+OverheadWarmup   3: 2048 op, 4708.00 ns, 2.2988 ns/op
+OverheadWarmup   4: 2048 op, 5625.00 ns, 2.7466 ns/op
+OverheadWarmup   5: 2048 op, 4750.00 ns, 2.3193 ns/op
+OverheadWarmup   6: 2048 op, 5000.00 ns, 2.4414 ns/op
+OverheadWarmup   7: 2048 op, 4792.00 ns, 2.3398 ns/op
+
+OverheadActual   1: 2048 op, 4833.00 ns, 2.3599 ns/op
+OverheadActual   2: 2048 op, 4750.00 ns, 2.3193 ns/op
+OverheadActual   3: 2048 op, 4917.00 ns, 2.4009 ns/op
+OverheadActual   4: 2048 op, 4875.00 ns, 2.3804 ns/op
+OverheadActual   5: 2048 op, 5333.00 ns, 2.6040 ns/op
+OverheadActual   6: 2048 op, 4708.00 ns, 2.2988 ns/op
+OverheadActual   7: 2048 op, 4750.00 ns, 2.3193 ns/op
+OverheadActual   8: 2048 op, 4458.00 ns, 2.1768 ns/op
+OverheadActual   9: 2048 op, 4417.00 ns, 2.1567 ns/op
+OverheadActual  10: 2048 op, 4208.00 ns, 2.0547 ns/op
+OverheadActual  11: 2048 op, 4167.00 ns, 2.0347 ns/op
+OverheadActual  12: 2048 op, 4083.00 ns, 1.9937 ns/op
+OverheadActual  13: 2048 op, 4834.00 ns, 2.3604 ns/op
+OverheadActual  14: 2048 op, 4708.00 ns, 2.2988 ns/op
+OverheadActual  15: 2048 op, 4708.00 ns, 2.2988 ns/op
+OverheadActual  16: 2048 op, 4750.00 ns, 2.3193 ns/op
+OverheadActual  17: 2048 op, 5084.00 ns, 2.4824 ns/op
+OverheadActual  18: 2048 op, 4667.00 ns, 2.2788 ns/op
+OverheadActual  19: 2048 op, 4750.00 ns, 2.3193 ns/op
+OverheadActual  20: 2048 op, 4750.00 ns, 2.3193 ns/op
+
+WorkloadWarmup   1: 2048 op, 740090291.00 ns, 361.3722 us/op
+WorkloadWarmup   2: 2048 op, 710587334.00 ns, 346.9665 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 2048 op, 702607667.00 ns, 343.0701 us/op
+WorkloadActual   2: 2048 op, 701106791.00 ns, 342.3373 us/op
+WorkloadActual   3: 2048 op, 703112041.00 ns, 343.3164 us/op
+WorkloadActual   4: 2048 op, 702329166.00 ns, 342.9342 us/op
+WorkloadActual   5: 2048 op, 702550292.00 ns, 343.0421 us/op
+
+// AfterActualRun
+WorkloadResult   1: 2048 op, 702602917.00 ns, 343.0678 us/op
+WorkloadResult   2: 2048 op, 701102041.00 ns, 342.3350 us/op
+WorkloadResult   3: 2048 op, 702324416.00 ns, 342.9318 us/op
+WorkloadResult   4: 2048 op, 702545542.00 ns, 343.0398 us/op
+// GC:  3 0 0 32546392 2048
+// Threading:  16384 0 2048
+
+// AfterAll
+// Benchmark Process 41146 has exited with code 0.
+
+Mean = 342.844 μs, StdErr = 0.172 μs (0.05%), N = 4, StdDev = 0.344 μs
+Min = 342.335 μs, Q1 = 342.783 μs, Median = 342.986 μs, Q3 = 343.047 μs, Max = 343.068 μs
+IQR = 0.264 μs, LowerFence = 342.386 μs, UpperFence = 343.443 μs
+ConfidenceInterval = [340.620 μs; 345.067 μs] (CI 99.9%), Margin = 2.224 μs (0.65% of Mean)
+Skewness = -0.69, Kurtosis = 1.27, MValue = 2
+
+// ** Remained 2 (50.0%) benchmark(s) to run. Estimated finish 2025-08-18 21:50 (0h 0m from now) **
+// **************************
+// Benchmark: EfVsDapperBenchmarks.DapperQuery: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet RibbitReels.Benchmarks-Job-WRIKEU-1.dll --anonymousPipes 132 133 --benchmarkName RibbitReels.Benchmarks.EfVsDapperBenchmarks.DapperQuery --job "IterationCount=5, LaunchCount=1, WarmupCount=2" --benchmarkId 2 in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+
+OverheadJitting  1: 1 op, 73208.00 ns, 73.2080 us/op
+WorkloadJitting  1: 1 op, 113818500.00 ns, 113.8185 ms/op
+
+WorkloadPilot    1: 2 op, 3856666.00 ns, 1.9283 ms/op
+WorkloadPilot    2: 3 op, 3331458.00 ns, 1.1105 ms/op
+WorkloadPilot    3: 4 op, 3354333.00 ns, 838.5833 us/op
+WorkloadPilot    4: 5 op, 4597250.00 ns, 919.4500 us/op
+WorkloadPilot    5: 6 op, 2935333.00 ns, 489.2222 us/op
+WorkloadPilot    6: 7 op, 3106916.00 ns, 443.8451 us/op
+WorkloadPilot    7: 8 op, 5388375.00 ns, 673.5469 us/op
+WorkloadPilot    8: 9 op, 3973084.00 ns, 441.4538 us/op
+WorkloadPilot    9: 10 op, 4630458.00 ns, 463.0458 us/op
+WorkloadPilot   10: 11 op, 4695791.00 ns, 426.8901 us/op
+WorkloadPilot   11: 12 op, 5451958.00 ns, 454.3298 us/op
+WorkloadPilot   12: 13 op, 5267334.00 ns, 405.1795 us/op
+WorkloadPilot   13: 14 op, 5840750.00 ns, 417.1964 us/op
+WorkloadPilot   14: 15 op, 5921458.00 ns, 394.7639 us/op
+WorkloadPilot   15: 16 op, 6263625.00 ns, 391.4766 us/op
+WorkloadPilot   16: 32 op, 12676209.00 ns, 396.1315 us/op
+WorkloadPilot   17: 64 op, 25621459.00 ns, 400.3353 us/op
+WorkloadPilot   18: 128 op, 49308750.00 ns, 385.2246 us/op
+WorkloadPilot   19: 256 op, 98312292.00 ns, 384.0324 us/op
+WorkloadPilot   20: 512 op, 202207375.00 ns, 394.9363 us/op
+WorkloadPilot   21: 1024 op, 409586625.00 ns, 399.9869 us/op
+WorkloadPilot   22: 2048 op, 701667625.00 ns, 342.6111 us/op
+
+WorkloadWarmup   1: 2048 op, 636277500.00 ns, 310.6824 us/op
+WorkloadWarmup   2: 2048 op, 631354042.00 ns, 308.2783 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 2048 op, 648925709.00 ns, 316.8583 us/op
+WorkloadActual   2: 2048 op, 630657708.00 ns, 307.9383 us/op
+WorkloadActual   3: 2048 op, 646387667.00 ns, 315.6190 us/op
+WorkloadActual   4: 2048 op, 642996375.00 ns, 313.9631 us/op
+WorkloadActual   5: 2048 op, 627274792.00 ns, 306.2865 us/op
+
+// AfterActualRun
+WorkloadResult   1: 2048 op, 648925709.00 ns, 316.8583 us/op
+WorkloadResult   2: 2048 op, 630657708.00 ns, 307.9383 us/op
+WorkloadResult   3: 2048 op, 646387667.00 ns, 315.6190 us/op
+WorkloadResult   4: 2048 op, 642996375.00 ns, 313.9631 us/op
+WorkloadResult   5: 2048 op, 627274792.00 ns, 306.2865 us/op
+// GC:  1 0 0 13510592 2048
+// Threading:  16383 0 2048
+
+// AfterAll
+// Benchmark Process 41153 has exited with code 0.
+
+Mean = 312.133 μs, StdErr = 2.117 μs (0.68%), N = 5, StdDev = 4.733 μs
+Min = 306.287 μs, Q1 = 307.938 μs, Median = 313.963 μs, Q3 = 315.619 μs, Max = 316.858 μs
+IQR = 7.681 μs, LowerFence = 296.417 μs, UpperFence = 327.140 μs
+ConfidenceInterval = [293.908 μs; 330.358 μs] (CI 99.9%), Margin = 18.225 μs (5.84% of Mean)
+Skewness = -0.23, Kurtosis = 0.85, MValue = 2
+
+// ** Remained 1 (25.0%) benchmark(s) to run. Estimated finish 2025-08-18 21:50 (0h 0m from now) **
+// **************************
+// Benchmark: EfVsDapperBenchmarks.RawAdoNet: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet RibbitReels.Benchmarks-Job-WRIKEU-1.dll --anonymousPipes 132 133 --benchmarkName RibbitReels.Benchmarks.EfVsDapperBenchmarks.RawAdoNet --job "IterationCount=5, LaunchCount=1, WarmupCount=2" --benchmarkId 3 in /Users/godfreyowidi/Projects/RibbitReels/RibbitReels.Benchmarks/bin/Release/net8.0/RibbitReels.Benchmarks-Job-WRIKEU-1/bin/Release/net8.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+
+OverheadJitting  1: 1 op, 62500.00 ns, 62.5000 us/op
+WorkloadJitting  1: 1 op, 96594667.00 ns, 96.5947 ms/op
+
+WorkloadPilot    1: 2 op, 1945167.00 ns, 972.5835 us/op
+WorkloadPilot    2: 3 op, 1602792.00 ns, 534.2640 us/op
+WorkloadPilot    3: 4 op, 2071083.00 ns, 517.7708 us/op
+WorkloadPilot    4: 5 op, 3373750.00 ns, 674.7500 us/op
+WorkloadPilot    5: 6 op, 2815375.00 ns, 469.2292 us/op
+WorkloadPilot    6: 7 op, 3357583.00 ns, 479.6547 us/op
+WorkloadPilot    7: 8 op, 4473667.00 ns, 559.2084 us/op
+WorkloadPilot    8: 9 op, 3653417.00 ns, 405.9352 us/op
+WorkloadPilot    9: 10 op, 3944292.00 ns, 394.4292 us/op
+WorkloadPilot   10: 11 op, 4240875.00 ns, 385.5341 us/op
+WorkloadPilot   11: 12 op, 4896750.00 ns, 408.0625 us/op
+WorkloadPilot   12: 13 op, 5062667.00 ns, 389.4359 us/op
+WorkloadPilot   13: 14 op, 5413417.00 ns, 386.6726 us/op
+WorkloadPilot   14: 15 op, 5750375.00 ns, 383.3583 us/op
+WorkloadPilot   15: 16 op, 6193833.00 ns, 387.1146 us/op
+WorkloadPilot   16: 32 op, 12649583.00 ns, 395.2995 us/op
+WorkloadPilot   17: 64 op, 24197791.00 ns, 378.0905 us/op
+WorkloadPilot   18: 128 op, 47580042.00 ns, 371.7191 us/op
+WorkloadPilot   19: 256 op, 97525667.00 ns, 380.9596 us/op
+WorkloadPilot   20: 512 op, 194977333.00 ns, 380.8151 us/op
+WorkloadPilot   21: 1024 op, 371839625.00 ns, 363.1246 us/op
+WorkloadPilot   22: 2048 op, 670123792.00 ns, 327.2089 us/op
+
+WorkloadWarmup   1: 2048 op, 641548791.00 ns, 313.2562 us/op
+WorkloadWarmup   2: 2048 op, 665999500.00 ns, 325.1951 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 2048 op, 638361500.00 ns, 311.7000 us/op
+WorkloadActual   2: 2048 op, 648048416.00 ns, 316.4299 us/op
+WorkloadActual   3: 2048 op, 645791125.00 ns, 315.3277 us/op
+WorkloadActual   4: 2048 op, 652887000.00 ns, 318.7925 us/op
+WorkloadActual   5: 2048 op, 635040250.00 ns, 310.0782 us/op
+
+// AfterActualRun
+WorkloadResult   1: 2048 op, 638361500.00 ns, 311.7000 us/op
+WorkloadResult   2: 2048 op, 648048416.00 ns, 316.4299 us/op
+WorkloadResult   3: 2048 op, 645791125.00 ns, 315.3277 us/op
+WorkloadResult   4: 2048 op, 652887000.00 ns, 318.7925 us/op
+WorkloadResult   5: 2048 op, 635040250.00 ns, 310.0782 us/op
+// GC:  1 0 0 11369408 2048
+// Threading:  16384 5 2048
+
+// AfterAll
+// Benchmark Process 41154 has exited with code 0.
+
+Mean = 314.466 μs, StdErr = 1.585 μs (0.50%), N = 5, StdDev = 3.543 μs
+Min = 310.078 μs, Q1 = 311.700 μs, Median = 315.328 μs, Q3 = 316.430 μs, Max = 318.792 μs
+IQR = 4.730 μs, LowerFence = 304.605 μs, UpperFence = 323.525 μs
+ConfidenceInterval = [300.821 μs; 328.110 μs] (CI 99.9%), Margin = 13.644 μs (4.34% of Mean)
+Skewness = -0.07, Kurtosis = 1.01, MValue = 2
+
+// ** Remained 0 (0.0%) benchmark(s) to run. Estimated finish 2025-08-18 21:50 (0h 0m from now) **
+// ***** BenchmarkRunner: Finish  *****
+
+// * Export *
+  BenchmarkDotNet.Artifacts/results/RibbitReels.Benchmarks.EfVsDapperBenchmarks-report.csv
+  BenchmarkDotNet.Artifacts/results/RibbitReels.Benchmarks.EfVsDapperBenchmarks-report-github.md
+  BenchmarkDotNet.Artifacts/results/RibbitReels.Benchmarks.EfVsDapperBenchmarks-report.html
+
+// * Detailed results *
+EfVsDapperBenchmarks.EfCoreLinq: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+Runtime = .NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 343.847 μs, StdErr = 0.625 μs (0.18%), N = 4, StdDev = 1.250 μs
+Min = 342.391 μs, Q1 = 343.021 μs, Median = 343.987 μs, Q3 = 344.814 μs, Max = 345.022 μs
+IQR = 1.793 μs, LowerFence = 340.332 μs, UpperFence = 347.502 μs
+ConfidenceInterval = [335.772 μs; 351.922 μs] (CI 99.9%), Margin = 8.075 μs (2.35% of Mean)
+Skewness = -0.12, Kurtosis = 0.74, MValue = 2
+-------------------- Histogram --------------------
+[341.358 μs ; 346.055 μs) | @@@@
+---------------------------------------------------
+
+EfVsDapperBenchmarks.EfCoreRawSql: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+Runtime = .NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 342.844 μs, StdErr = 0.172 μs (0.05%), N = 4, StdDev = 0.344 μs
+Min = 342.335 μs, Q1 = 342.783 μs, Median = 342.986 μs, Q3 = 343.047 μs, Max = 343.068 μs
+IQR = 0.264 μs, LowerFence = 342.386 μs, UpperFence = 343.443 μs
+ConfidenceInterval = [340.620 μs; 345.067 μs] (CI 99.9%), Margin = 2.224 μs (0.65% of Mean)
+Skewness = -0.69, Kurtosis = 1.27, MValue = 2
+-------------------- Histogram --------------------
+[342.050 μs ; 343.352 μs) | @@@@
+---------------------------------------------------
+
+EfVsDapperBenchmarks.DapperQuery: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+Runtime = .NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 312.133 μs, StdErr = 2.117 μs (0.68%), N = 5, StdDev = 4.733 μs
+Min = 306.287 μs, Q1 = 307.938 μs, Median = 313.963 μs, Q3 = 315.619 μs, Max = 316.858 μs
+IQR = 7.681 μs, LowerFence = 296.417 μs, UpperFence = 327.140 μs
+ConfidenceInterval = [293.908 μs; 330.358 μs] (CI 99.9%), Margin = 18.225 μs (5.84% of Mean)
+Skewness = -0.23, Kurtosis = 0.85, MValue = 2
+-------------------- Histogram --------------------
+[303.480 μs ; 311.778 μs) | @@
+[311.778 μs ; 320.491 μs) | @@@
+---------------------------------------------------
+
+EfVsDapperBenchmarks.RawAdoNet: Job-WRIKEU(IterationCount=5, LaunchCount=1, WarmupCount=2)
+Runtime = .NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 314.466 μs, StdErr = 1.585 μs (0.50%), N = 5, StdDev = 3.543 μs
+Min = 310.078 μs, Q1 = 311.700 μs, Median = 315.328 μs, Q3 = 316.430 μs, Max = 318.792 μs
+IQR = 4.730 μs, LowerFence = 304.605 μs, UpperFence = 323.525 μs
+ConfidenceInterval = [300.821 μs; 328.110 μs] (CI 99.9%), Margin = 13.644 μs (4.34% of Mean)
+Skewness = -0.07, Kurtosis = 1.01, MValue = 2
+-------------------- Histogram --------------------
+[307.359 μs ; 320.231 μs) | @@@@@
+---------------------------------------------------
+
+// * Summary *
+
+BenchmarkDotNet v0.15.2, macOS Sequoia 15.6 (24G84) [Darwin 24.6.0]
+Apple M4 Pro, 1 CPU, 12 logical and 12 physical cores
+.NET SDK 8.0.412
+  [Host]     : .NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD
+  Job-WRIKEU : .NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD
+
+IterationCount=5  LaunchCount=1  WarmupCount=2  
+
+| Method       | Mean     | Error    | StdDev  | Gen0   | Allocated |
+|------------- |---------:|---------:|--------:|-------:|----------:|
+| EfCoreLinq   | 343.8 μs |  8.07 μs | 1.25 μs | 1.4648 |  12.95 KB |
+| EfCoreRawSql | 342.8 μs |  2.22 μs | 0.34 μs | 1.4648 |  15.52 KB |
+| DapperQuery  | 312.1 μs | 18.23 μs | 4.73 μs | 0.4883 |   6.44 KB |
+| RawAdoNet    | 314.5 μs | 13.64 μs | 3.54 μs | 0.4883 |   5.42 KB |
+
+// * Hints *
+Outliers
+  EfVsDapperBenchmarks.EfCoreLinq: IterationCount=5, LaunchCount=1, WarmupCount=2   -> 1 outlier  was  removed (358.50 μs)
+  EfVsDapperBenchmarks.EfCoreRawSql: IterationCount=5, LaunchCount=1, WarmupCount=2 -> 1 outlier  was  removed, 2 outliers were detected (342.34 μs, 343.32 μs)
+
+// * Legends *
+  Mean      : Arithmetic mean of all measurements
+  Error     : Half of 99.9% confidence interval
+  StdDev    : Standard deviation of all measurements
+  Gen0      : GC Generation 0 collects per 1000 operations
+  Allocated : Allocated memory per single operation (managed only, inclusive, 1KB = 1024B)
+  1 μs      : 1 Microsecond (0.000001 sec)
+
+// * Diagnostic Output - MemoryDiagnoser *
+
+
+// ***** BenchmarkRunner: End *****
+Run time: 00:00:30 (30.44 sec), executed benchmarks: 4
+
+Global total time: 00:00:37 (37.76 sec), executed benchmarks: 4
+// * Artifacts cleanup *
+Artifacts cleanup is finished
