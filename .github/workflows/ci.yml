@@ -212,6 +212,8 @@ jobs:
             echo "SQL Server not ready yet, attempt $i..."
             sleep 10
           done
+        env:
+            DOTNET_ENVIRONMENT: Production
 
       - name: Run EF Core Migrations
         run: |
