@@ -12,8 +12,8 @@ using RibbitReels.Data;
 namespace RibbitReels.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250802213411_FixingAppDbContext")]
-    partial class FixingAppDbContext
+    [Migration("20250827175557_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,7 +68,7 @@ namespace RibbitReels.Data.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.ToTable("Leaves");
+                    b.ToTable("Leafs");
                 });
 
             modelBuilder.Entity("RibbitReels.Data.Models.LearningProgress", b =>
@@ -96,7 +96,7 @@ namespace RibbitReels.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserProgress");
+                    b.ToTable("LearningProgress");
                 });
 
             modelBuilder.Entity("RibbitReels.Data.Models.User", b =>
@@ -155,13 +155,13 @@ namespace RibbitReels.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AssignedBranches");
+                    b.ToTable("UserBranchAssignment");
                 });
 
             modelBuilder.Entity("RibbitReels.Data.Models.Leaf", b =>
                 {
                     b.HasOne("RibbitReels.Data.Models.Branch", "Branch")
-                        .WithMany("Leaves")
+                        .WithMany("Leafs")
                         .HasForeignKey("BranchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -209,7 +209,7 @@ namespace RibbitReels.Data.Migrations
 
             modelBuilder.Entity("RibbitReels.Data.Models.Branch", b =>
                 {
-                    b.Navigation("Leaves");
+                    b.Navigation("Leafs");
                 });
 
             modelBuilder.Entity("RibbitReels.Data.Models.User", b =>
