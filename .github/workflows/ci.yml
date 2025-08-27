@@ -46,6 +46,12 @@ jobs:
       - name: Build solution
         run: dotnet build --no-restore --configuration Release
 
+      - name: Install sqlcmd
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mssql-tools unixodbc-dev
+          echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> $GITHUB_ENV
+
       - name: Wait for SQL Server to be ready
         run: |
           echo "⏳ Waiting for SQL Server to be ready..."
@@ -93,7 +99,7 @@ jobs:
         with:
           terraform_version: 1.8.5
 
-      # --- NEW STEPS TO ENSURE BACKEND EXISTS ---
+      # --- Ensure Azure Backend ---
       - name: Login to Azure CLI
         run: |
           az login --service-principal \
@@ -147,8 +153,8 @@ jobs:
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      # --- END NEW STEPS ---
 
+      # --- Terraform Steps ---
       - name: Terraform Init
         working-directory: ./infra
         run: terraform init
@@ -192,7 +198,7 @@ jobs:
           TF_VAR_jwt_key: ${{ secrets.JWT__KEY }}
           TF_VAR_jwt_issuer: ${{ secrets.JWT__ISSUER }}
           TF_VAR_jwt_audience: ${{ secrets.JWT__AUDIENCE }}
-          TF_VAR_jwt_expireminutes: ${{ secrets.JWT__EXPIREMINUTES }}
+          TF_VAR_jwt_expireminutes: ${{ secrets.TF_VAR_jwt_expireminutes }}
           TF_VAR_google_clientid: ${{ secrets.GOOGLEAUTH__CLIENTID }}
           TF_VAR_google_clientsecret: ${{ secrets.GOOGLEAUTH__CLIENTSECRET }}
 
@@ -214,14 +220,15 @@ jobs:
             sleep 10
           done
         env:
-            DOTNET_ENVIRONMENT: Production
+          DOTNET_ENVIRONMENT: Production
 
       - name: Run EF Core Migrations
         run: |
-          echo "Applying migrations to Azure SQL..."
-          dotnet tool install --global dotnet-ef --version 8.0.0
-          export PATH="$PATH:/home/runner/.dotnet/tools"
-          dotnet ef database update --project RibbitReels.Data --startup-project RibbitReels.Api
+          cd RibbitReels.Api
+          dotnet new tool-manifest || true
+          dotnet tool install dotnet-ef --version 8.0.0
+          echo 'export PATH="$PATH:$(pwd)/.config/dotnet-tools"' >> $GITHUB_ENV
+          dotnet tool run dotnet-ef database update --project ../RibbitReels.Data --startup-project .
         env:
           DOTNET_ENVIRONMENT: Production
           ConnectionStrings__DefaultConnection: "Server=${{ env.sql_server_fqdn }};Database=RibbitReelsDb;User Id=${{ secrets.SQL_ADMIN_USER }};Password=${{ secrets.SQL_ADMIN_PASSWORD }};TrustServerCertificate=True"
@@ -231,4 +238,3 @@ jobs:
           Jwt__ExpireMinutes: ${{ secrets.JWT__EXPIREMINUTES }}
           GoogleAuth__ClientId: ${{ secrets.GOOGLEAUTH__CLIENTID }}
           GoogleAuth__ClientSecret: ${{ secrets.GOOGLEAUTH__CLIENTSECRET }}
-
