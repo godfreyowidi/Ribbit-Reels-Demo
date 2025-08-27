@@ -42,10 +42,7 @@ namespace RibbitReels.Data
             if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true")
             {
                 connectionString = connectionString.Replace("localhost", "sqlserver");
-                Console.WriteLine("Replaced 'localhost' with 'sqlserver' for CI environment.");
             }
-
-            Console.WriteLine($"Using connection string: {connectionString}");
 
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
             optionsBuilder.UseSqlServer(connectionString);

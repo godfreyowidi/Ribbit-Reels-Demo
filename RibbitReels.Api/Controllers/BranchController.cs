@@ -1,5 +1,3 @@
-
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RibbitReels.Data.DTOs;
@@ -59,7 +57,6 @@ public class BranchController : ControllerBase
             {
                 Id = leaf.Id,
                 Title = leaf.Title,
-                VideoUrl = leaf.VideoUrl,
                 Order = leaf.Order
             }).ToList() ?? new List<LeafResponse>()
         });
@@ -87,7 +84,6 @@ public class BranchController : ControllerBase
             {
                 Id = leaf.Id,
                 Title = leaf.Title,
-                VideoUrl = leaf.VideoUrl,
                 Order = leaf.Order
             }).ToList() ?? new List<LeafResponse>()
 

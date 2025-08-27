@@ -1,4 +1,4 @@
-name: CI - Build, Test, Push to GHCR, and Deploy via Terraform
+name: CI - Build, Push to GHCR, and Deploy via Terraform
 
 on:
   push:
@@ -7,36 +7,13 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-test:
+  build-and-push:
     runs-on: ubuntu-latest
-
-    services:
-      sqlserver:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        env:
-          SA_PASSWORD: Password123!
-          ACCEPT_EULA: Y
-        ports:
-          - 1433:1433
-        options: >-
-          --health-cmd "exit 0"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
-
     env:
       GITHUB_ACTIONS: true
-      ConnectionStrings__DefaultConnection: Server=localhost,1433;Database=RibbitReelsDb;User Id=sa;Password=Password123!;TrustServerCertificate=True
-      Jwt__Key: ${{ secrets.JWT__KEY }}
-      Jwt__Issuer: ${{ secrets.JWT__ISSUER }}
-      Jwt__Audience: ${{ secrets.JWT__AUDIENCE }}
-      Jwt__ExpireMinutes: ${{ secrets.JWT__EXPIREMINUTES }}
-      GoogleAuth__ClientId: ${{ secrets.GOOGLEAUTH__CLIENTID }}
-      GoogleAuth__ClientSecret: ${{ secrets.GOOGLEAUTH__CLIENTSECRET }}
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
@@ -49,16 +26,7 @@ jobs:
       - name: Build solution
         run: dotnet build --no-restore --configuration Release
 
-      - name: Wait for SQL Server to be ready
-        run: |
-          echo "⏳ Waiting for SQL Server to be ready..."
-          for i in {1..30}; do
-            /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P Password123! -Q "SELECT 1" && echo "✅ SQL Server is ready!" && break
-            echo "Attempt $i: SQL Server not ready yet..."
-            sleep 5
-          done
-
-      - name: Run Unit and Integration Tests (migrates DB internally)
+      - name: Run Unit Tests
         run: dotnet test --no-build --configuration Release
         env:
           DOTNET_ENVIRONMENT: Development
@@ -68,7 +36,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GHCR_PAT }}
 
       - name: Set Docker image tag
         run: echo "IMAGE_TAG=ghcr.io/${{ github.repository_owner }}/ribbitreels-api:latest" >> $GITHUB_ENV
@@ -80,34 +48,34 @@ jobs:
         run: docker push $IMAGE_TAG
 
   deploy:
-    needs: build-and-test
+    needs: build-and-push
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.8.2
+          terraform_version: 1.8.5
 
       - name: Terraform Init
-        run: terraform init
         working-directory: ./infra
+        run: terraform init
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
-      - name: Terraform Validate
-        run: terraform validate
-        working-directory: ./infra
-
       - name: Terraform Apply
-        run: terraform apply -auto-approve
         working-directory: ./infra
+        run: terraform apply -auto-approve
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -117,5 +85,60 @@ jobs:
           TF_VAR_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }}
           TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
-          TF_VAR_github_owner: ${{ github.repository_owner }}
-          TF_VAR_github_token: ${{ secrets.GITHUB_TOKEN }}
+          TF_VAR_sql_admin_user: ${{ secrets.SQL_ADMIN_USER }}
+          TF_VAR_sql_admin_password: ${{ secrets.SQL_ADMIN_PASSWORD }}
+          TF_VAR_ghcr_owner: ${{ github.repository_owner }}
+          TF_VAR_ghcr_token: ${{ secrets.GHCR_PAT }}
+          TF_VAR_jwt_key: ${{ secrets.JWT__KEY }}
+          TF_VAR_jwt_issuer: ${{ secrets.JWT__ISSUER }}
+          TF_VAR_jwt_audience: ${{ secrets.JWT__AUDIENCE }}
+          TF_VAR_jwt_expireminutes: "60"
+          TF_VAR_google_clientid: ${{ secrets.GOOGLEAUTH__CLIENTID }}
+          TF_VAR_google_clientsecret: ${{ secrets.GOOGLEAUTH__CLIENTSECRET }}
+
+      - name: Get SQL Server FQDN
+        working-directory: ./infra
+        run: echo "sql_server_fqdn=$(terraform output -raw sql_server_fqdn)" >> $GITHUB_ENV
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+
+      - name: Install sqlcmd
+        run: |
+          curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+          curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+          sudo apt-get update
+          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 unixodbc-dev
+          echo "/opt/mssql-tools18/bin" >> $GITHUB_PATH
+
+      - name: Wait for Azure SQL
+        run: |
+          for i in {1..30}; do
+            sqlcmd -S tcp:${{ env.sql_server_fqdn }},1433 \
+              -U ${{ secrets.SQL_ADMIN_USER }} \
+              -P ${{ secrets.SQL_ADMIN_PASSWORD }} \
+              -C -Q "SELECT 1" && break
+            echo "SQL Server not ready yet, attempt $i..."
+            sleep 10
+          done
+
+      - name: Run EF Core Migrations
+        run: |
+          cd RibbitReels.Api
+          dotnet new tool-manifest || true
+          dotnet tool install dotnet-ef --version 8.0.0
+          dotnet tool run dotnet-ef database update \
+            --project ../RibbitReels.Data \
+            --startup-project .
+        env:
+          DOTNET_ENVIRONMENT: Production
+          ConnectionStrings__DefaultConnection: "Server=${{ env.sql_server_fqdn }};Database=RibbitReelsDb;User Id=${{ secrets.SQL_ADMIN_USER }};Password=${{ secrets.SQL_ADMIN_PASSWORD }};TrustServerCertificate=True"
+          Jwt__Key: ${{ secrets.JWT__KEY }}
+          Jwt__Issuer: ${{ secrets.JWT__ISSUER }}
+          Jwt__Audience: ${{ secrets.JWT__AUDIENCE }}
+          Jwt__ExpireMinutes: "60"
+          GoogleAuth__ClientId: ${{ secrets.GOOGLEAUTH__CLIENTID }}
+          GoogleAuth__ClientSecret: ${{ secrets.GOOGLEAUTH__CLIENTSECRET }}

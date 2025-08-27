@@ -1,4 +1,3 @@
-
 namespace RibbitReels.Data.DTOs;
 
 public class CompletedBranchResponse

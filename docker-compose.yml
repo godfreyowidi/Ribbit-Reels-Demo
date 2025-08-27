@@ -1,3 +1,5 @@
+version: '3.9'
+
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -10,16 +12,20 @@ services:
     networks:
       - ribbit-network
 
-  ribbitreels.api:
+  ribbitreels-api:
     build:
       context: .
       dockerfile: RibbitReels.Api/Dockerfile
     container_name: ribbitreels-api
     ports:
       - "8080:80"
+    env_file:
+      - ./RibbitReels.Api/.env
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=RibbitReelsDb;User Id=sa;Password=Password123!;TrustServerCertificate=True
+      DOTNET_RUNNING_IN_CONTAINER: "true"
+      DOTNET_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://0.0.0.0:80"
+      ConnectionStrings__DefaultConnection: "Server=host.docker.internal,1433;Database=RibbitReelsDb;User Id=sa;Password=Password123!;TrustServerCertificate=True"
     depends_on:
       - sqlserver
     networks:

@@ -50,16 +50,48 @@ namespace RibbitReels.Data.Migrations
                     b.Property<Guid>("BranchId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Source")
                         .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("ThumbnailUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("VideoUrl")
+                    b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("VideoBlobPath")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("VideoContentType")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("VideoFileName")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("YouTubeVideoId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -150,7 +182,8 @@ namespace RibbitReels.Data.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "BranchId")
+                        .IsUnique();
 
                     b.ToTable("UserBranchAssignment");
                 });

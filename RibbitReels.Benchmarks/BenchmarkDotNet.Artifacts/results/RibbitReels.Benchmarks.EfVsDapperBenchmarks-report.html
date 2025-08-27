@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>RibbitReels.Benchmarks.EfVsDapperBenchmarks-20250818-214932</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.15.2, macOS Sequoia 15.6 (24G84) [Darwin 24.6.0]
+Apple M4 Pro, 1 CPU, 12 logical and 12 physical cores
+.NET SDK 8.0.412
+  [Host]     : .NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD
+  Job-WRIKEU : .NET 8.0.18 (8.0.1825.31117), Arm64 RyuJIT AdvSIMD
+</code></pre>
+<pre><code>IterationCount=5  LaunchCount=1  WarmupCount=2  
+</code></pre>
+
+<table>
+<thead><tr><th>Method</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Gen0</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>EfCoreLinq</td><td>343.8 &mu;s</td><td>8.07 &mu;s</td><td>1.25 &mu;s</td><td>1.4648</td><td>12.95 KB</td>
+</tr><tr><td>EfCoreRawSql</td><td>342.8 &mu;s</td><td>2.22 &mu;s</td><td>0.34 &mu;s</td><td>1.4648</td><td>15.52 KB</td>
+</tr><tr><td>DapperQuery</td><td>312.1 &mu;s</td><td>18.23 &mu;s</td><td>4.73 &mu;s</td><td>0.4883</td><td>6.44 KB</td>
+</tr><tr><td>RawAdoNet</td><td>314.5 &mu;s</td><td>13.64 &mu;s</td><td>3.54 &mu;s</td><td>0.4883</td><td>5.42 KB</td>
+</tr></tbody></table>
+</body>
+</html>

@@ -50,7 +50,7 @@ Auto builds, test and deploys.
     - Pushed to Github Container Registry (GCR)
     - Terraform initializes & applies Azure infra changes
     - Container App deployed
-See .github/workflows/ci.yml for details
+- See _.github/workflows/ci.yml for details_
 
 ## Terraform + Azure Setup
 ### Pre-create backend infra:

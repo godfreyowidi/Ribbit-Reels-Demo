@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RibbitReels.UnitTests", "Ri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RibbitReels.IntegrationTests", "RibbitReels.IntegrationTests\RibbitReels.IntegrationTests.csproj", "{FA1FA973-6AC2-4740-825E-7577A834C6F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RibbitReels.Benchmarks", "RibbitReels.Benchmarks\RibbitReels.Benchmarks.csproj", "{59A227B0-E505-4EE0-B7FB-02551673E877}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{FA1FA973-6AC2-4740-825E-7577A834C6F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA1FA973-6AC2-4740-825E-7577A834C6F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA1FA973-6AC2-4740-825E-7577A834C6F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59A227B0-E505-4EE0-B7FB-02551673E877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59A227B0-E505-4EE0-B7FB-02551673E877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59A227B0-E505-4EE0-B7FB-02551673E877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59A227B0-E505-4EE0-B7FB-02551673E877}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
